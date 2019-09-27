@@ -1,7 +1,7 @@
 import React from "react";
-import "./ClipContainer.css";
+import "./RecordsContainer.css";
 
-export const ClipContainer = ({ records, onDelete }) => {
+export const RecordsContainer = ({ records, onDelete }) => {
   return (
     <div>
       <h1>Records</h1>

@@ -17,6 +17,9 @@
   "permissions": {
 	"audio-capture": {
     "description": "Required to capture audio using getUserMedia()"
+  },
+"telephony": {
+    "description": "Required to control telephony functions"
   }
 },
   "installs_allowed_from": [

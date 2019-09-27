@@ -1,1 +1,2 @@
-export * from "./ClipContainer/ClipContainer";
+export * from "./RecordsContainer/RecordsContainer";
+export * from "./ContactsContainer/ContactsContainer";
