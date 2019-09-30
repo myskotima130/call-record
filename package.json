@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "dexie": "^2.0.4",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "css-loader": "0.26.1",

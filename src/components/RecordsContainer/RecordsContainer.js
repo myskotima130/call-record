@@ -6,10 +6,10 @@ export const RecordsContainer = ({ records, onDelete }) => {
     <div>
       <h1>Records</h1>
       {records.map(record => (
-        <div key={record.url}>
+        <div key={record.id}>
           <h3>{record.title}</h3>
-          <audio src={record.url} controls></audio>
-          <button onClick={() => onDelete(record.url)}>delete</button>
+          <audio src={URL.createObjectURL(record.blob)} controls></audio>
+          <button onClick={() => onDelete(record.id)}>delete</button>
         </div>
       ))}
     </div>

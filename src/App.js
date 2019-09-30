@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import uuid from "uuid/v4";
 import { RecordsContainer, ContactsContainer } from "./components";
 import db from "./db/indexedDB";
 import "./App.css";
@@ -8,9 +9,9 @@ const App = () => {
   const [records, setRecords] = useState([]);
   const [contacts, setContacts] = useState([]);
 
-  const onDelete = recordUrl => {
-    db.records.delete(recordUrl);
-    setRecords([...records.filter(record => record.url !== recordUrl)]);
+  const onDelete = id => {
+    db.records.delete(id);
+    setRecords([...records.filter(record => record.id !== id)]);
   };
 
   let chunks = [];
@@ -88,10 +89,9 @@ const App = () => {
 
       const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
       chunks = [];
-      const url = window.URL.createObjectURL(blob);
-
-      setRecords([...records, { url, title: clipName }]);
-      db.records.add({ url, title: clipName });
+      const id = uuid();
+      db.records.add({ id, blob, title: clipName });
+      setRecords([...records, { id, blob, title: clipName }]);
 
       console.log("recorder stopped");
     };
