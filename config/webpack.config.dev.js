@@ -139,7 +139,8 @@ module.exports = {
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
-        loader: "style!css?importLoaders=1!postcss"
+        loader:
+          "style-loader!css-loader?modules=true&localIdentName=[name]__[local]"
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.

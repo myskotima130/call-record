@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import uuid from "uuid/v4";
-import { RecordsContainer, ContactsContainer } from "./components";
+import { RecordsContainer, ContactsContainer, Search } from "./components";
 import db from "./db/indexedDB";
-import "./App.css";
+import styles from "./App.css";
 
 const App = () => {
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [records, setRecords] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [status, setStatus] = useState("contact");
 
   const onDelete = id => {
     db.records.delete(id);
@@ -38,7 +39,7 @@ const App = () => {
     } else {
       setContacts([
         {
-          name: "contact name 1",
+          name: "Amie Meyer",
           tel: "+380980243825"
         },
         {
@@ -70,16 +71,6 @@ const App = () => {
     }
   }, []);
 
-  const onStartClick = () => {
-    mediaRecorder.start();
-    console.log("recorder started");
-  };
-
-  const onStopClick = () => {
-    mediaRecorder.stop();
-    console.log("recorder stopped");
-  };
-
   if (mediaRecorder) {
     mediaRecorder.onstop = () => {
       const clipName = prompt(
@@ -103,11 +94,17 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>Call Record</h1>
-      <button onClick={onStartClick}>Start</button>
-      <button onClick={onStopClick}>Stop</button>
-      {records && <RecordsContainer records={records} onDelete={onDelete} />}
-      {contacts && <ContactsContainer contacts={contacts} />}
+      <Search placeholder={`Search ${status}`} />
+      <div className={styles.menu}>
+        <h3 onClick={() => setStatus("contact")}>Contacts</h3>
+        <h3 onClick={() => setStatus("records")}>Records</h3>
+      </div>
+      {status === "records" && (
+        <RecordsContainer records={records} onDelete={onDelete} />
+      )}
+      {status === "contact" && (
+        <ContactsContainer contacts={contacts} mediaRecorder={mediaRecorder} />
+      )}
     </div>
   );
 };
