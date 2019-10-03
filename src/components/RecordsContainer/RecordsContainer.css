@@ -1,3 +1,51 @@
-audio {
+.wrapper {
+  padding: 0 10px;
+}
+
+.noRecordsText {
+  text-align: center;
+  font-size: 12px;
+  color: #797e83;
+}
+
+.itemWrapper {
+  padding: 3px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top,
+.bottom {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e1d20;
+}
+
+.col {
+  text-align: center;
+  width: 16px;
+  height: 15px;
+  border-radius: 1px;
+  background-color: #f7f7f7;
+  font-size: 12px;
+  font-weight: 500;
+  color: #d84315;
+}
+
+.tel {
+  font-size: 12px;
+  color: #797e83;
+}
+
+.fromNow {
+  font-size: 10px;
+  font-weight: 500;
+  color: #797e83;
 }

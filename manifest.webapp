@@ -1,4 +1,4 @@
-{
+﻿{
   "version": "0.1.0",
   "name": "call record app",
   "description": "A template with the bare minimum structure",
@@ -20,7 +20,13 @@
   },
 "telephony": {
     "description": "Required to control telephony functions"
-  }
+  },
+"device-storage:apps":{
+	"access": "readwrite"
+ },
+"device-storage:sdcard":{
+	"access": "readwrite"
+ },
 },
   "installs_allowed_from": [
     "*"

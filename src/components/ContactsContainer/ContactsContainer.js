@@ -2,16 +2,26 @@ import React from "react";
 import Contact from "./Contact/Contact";
 import styles from "./ContactsContainer.css";
 
-export const ContactsContainer = ({ contacts, mediaRecorder }) => {
-  let currentName;
+export const ContactsContainer = ({ contacts, mediaRecorder, addRecord }) => {
+  let currentChar;
   return (
-    <div className={styles.wrapper}>
-      {contacts.map(contact => (
-        <React.Fragment>
-          {currentName !== contact.name[0] && contact.name[0]}
-          <Contact contact={contact} mediaRecorder={mediaRecorder} />
-        </React.Fragment>
-      ))}
+    <div>
+      {contacts.map((contact, index) => {
+        const isCharShow = currentChar !== contact.name[0].toUpperCase();
+        if (isCharShow) {
+          currentChar = contact.name[0];
+        }
+        return (
+          <div key={index}>
+            {isCharShow && <div className={styles.char}>{currentChar}</div>}
+            <Contact
+              contact={contact}
+              mediaRecorder={mediaRecorder}
+              addRecord={addRecord}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -1,4 +1,39 @@
 .wrapper {
+  position: relative;
+  padding: 0 10px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: 39px;
+}
+
+.wrapper:before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 10px;
+  height: 1px;
+  width: 90%;
+  border-bottom: 1px solid #ebedf0;
+}
+
+.name {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: #1e1d20;
+  margin: 3px 0 2px 0;
+}
+
+.tel {
+  font-size: 12px;
+  letter-spacing: 0;
+  color: #797e83;
+}
+
+.call {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background-color: #95c555;
 }
