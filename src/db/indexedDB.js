@@ -2,7 +2,7 @@ import Dexie from "dexie";
 
 const db = new Dexie("recordsDB");
 db.version(1).stores({
-  records: "id,blob,title,name,tel,date"
+  records: "id,blob,title,name,tel,date,duration"
 });
 
 // db.records.add({
