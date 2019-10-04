@@ -1,33 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Records.css";
+import Record from './Record/Record';
 import db from "../../../db/indexedDB";
 
 const Records = ({ recordTel }) => {
   const [records, setRecords] = useState([]);
-  const audioRef = useRef(null);
-
+  
   useEffect(() => {
     db.records.where({ tel: recordTel }).toArray(data => setRecords(data));
   }, []);
-  console.log(records);
 
-  const onClickPlay = () => {
-    console.log(audioRef);
-
-    audioRef.current.play();
-  };
   return records.length > 0 ? (
     <div className={styles.wrapper}>
-      {records.map(record => (
-        <div key={record.id} className={styles.itemWrapper}>
-          <p className={styles.title}>{record.title}</p>
-          <audio
-            ref={audioRef}
-            src={URL.createObjectURL(record.blob)}
-            controls
-          ></audio>
-          <button onClick={onClickPlay}>play</button>
-        </div>
+      {records.map((record, index) => (
+        <Record  key={record.id} record={record} />
       ))}
     </div>
   ) : null;

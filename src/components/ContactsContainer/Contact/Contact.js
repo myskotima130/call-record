@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import uuid from "uuid/v4";
 import CallPassive from "../../../SVG/CallPassive/CallPassive";
 import db from "../../../db/indexedDB";
