@@ -26,7 +26,7 @@
  },
 "device-storage:sdcard":{
 	"access": "readwrite"
- },
+ }  
 },
   "installs_allowed_from": [
     "*"
