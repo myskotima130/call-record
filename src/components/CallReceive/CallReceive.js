@@ -2,70 +2,46 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import db from "../../db/indexedDB";
 import PlayBig from "../../SVG/PlayBig/PlayBig";
-import { TitlePrompt } from "../TitlePrompt/TitlePrompt";
+import { TitlePrompt, Softkey } from "../../components";
 import uuid from "uuid/v4";
 import styles from "./CallReceive.css";
 
 export const CallReceive = ({
   callInfo,
   mediaRecorder,
-  addRecord,
-  setSoftkey
+  addRecord
+  // setSoftkey
 }) => {
-  const [isShownPrompt, setIsShownPrompt] = useState(false);
-  const [title, setTitle] = useState("Record");
-
   let chunks = [];
   let startRecord;
-
   const onCall = () => {
     mediaRecorder.start();
     startRecord = moment();
     console.log("recorder started");
   };
 
-  const onStopClick = () => {
-    setIsShownPrompt(true);
-    mediaRecorder.stop();
-    console.log("recorder stopped");
-  };
+  const [isShownPrompt, setIsShownPrompt] = useState(false);
+  const [title, setTitle] = useState("Record");
+  const [record, setRecord] = useState("Record");
 
-  useEffect(() => {
-    setSoftkey({
-      left: "",
-      center: "Start recording",
-      right: "",
-      onKeyCenter: onCall
-    });
+  const onStopClick = () => {
+    mediaRecorder.stop();
+    setIsShownPrompt(true);
+    console.log("recorder stopped");
 
     if (mediaRecorder) {
       mediaRecorder.onstop = () => {
         const duration = moment().diff(startRecord, "milliseconds");
 
-        // const title = prompt(
-        //   "Enter a name for your record?",
-        //   "My unnamed clip"
-        // );
-
-        // const title = "test";
+        console.log(startRecord);
 
         const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
         chunks = [];
 
         const id = uuid();
-        db.records.add({
+        setRecord({
           id,
           blob,
-          title,
-          name: callInfo.callerName,
-          tel: callInfo.callerNumber,
-          date: new Date(),
-          duration
-        });
-        addRecord({
-          id,
-          blob,
-          title,
           name: callInfo.callerName,
           tel: callInfo.callerNumber,
           date: new Date(),
@@ -77,7 +53,21 @@ export const CallReceive = ({
         chunks.push(e.data);
       };
     }
-  }, [title]);
+  };
+
+  const onSave = () => {
+    console.log("onsave", title);
+
+    db.records.add({
+      ...record,
+      title
+    });
+
+    addRecord({
+      ...record,
+      title
+    });
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -85,9 +75,7 @@ export const CallReceive = ({
         <p>You are talking with</p>
         <p>{callInfo.callerName}</p>
       </div>
-      <div onClick={onCall}>
-        <PlayBig />
-      </div>
+      <PlayBig />
       <div className={styles.bottomLine} />
       <div
         onClick={onStopClick}
@@ -99,10 +87,16 @@ export const CallReceive = ({
           <TitlePrompt
             text="Enter a name for your record"
             setTitle={setTitle}
-            setSoftkey={setSoftkey}
           />
         </div>
       )}
+      <Softkey
+        left=""
+        center={isShownPrompt ? "Save" : "Start recording"}
+        onKeyCenter={isShownPrompt ? onSave : onCall}
+        right=""
+        // onKeyRight={onKeyRight}
+      />
     </div>
   );
 };

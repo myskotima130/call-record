@@ -1,22 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./TitlePrompt.css";
 
-export const TitlePrompt = ({ text, setTitle, setSoftkey }) => {
-  const [inputValue, setInputValue] = useState("Record");
-
-  const onSave = () => setTitle(inputValue);
-
-  useEffect(() => {
-    setSoftkey({
-      left: "",
-      center: "Save",
-      right: "",
-      onKeyCenter: onSave
-    });
-  }, []);
-
-  const onChange = e => setInputValue(e.currentTarget.value);
-
+export const TitlePrompt = ({ text, setTitle }) => {
   return (
     <div className={styles.wrapper}>
       <h2>{text}</h2>
@@ -24,7 +9,7 @@ export const TitlePrompt = ({ text, setTitle, setSoftkey }) => {
         className={styles.input}
         type="text"
         defaultValue="Record"
-        onChange={onChange}
+        onChange={e => setTitle(e.currentTarget.value)}
       ></input>
     </div>
   );

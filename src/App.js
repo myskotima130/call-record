@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  RecordsContainer,
-  Search,
-  Header,
-  Softkey,
-  CallReceive
-} from "./components";
+import { RecordsContainer, Search, Softkey, CallReceive } from "./components";
 import db from "./db/indexedDB";
 import styles from "./App.css";
 
@@ -20,8 +14,7 @@ const App = () => {
   const [softkey, setSoftkey] = useState({
     left: "",
     center: "",
-    right: "",
-    onKeyCenter: ""
+    right: ""
   });
 
   useEffect(() => {
@@ -83,24 +76,27 @@ const App = () => {
 
   return (
     <div className={styles.wrapper}>
-      {callInfo.callerNumber && (
+      {callInfo.callerNumber ? (
         <CallReceive
           callInfo={callInfo}
           mediaRecorder={mediaRecorder}
           addRecord={addRecord}
           setSoftkey={setSoftkey}
         />
+      ) : (
+        <div>
+          <Search placeholder={`Search ${status}`} />
+          <RecordsContainer records={records} onDelete={onDelete} />
+
+          <Softkey
+            left={softkey.left}
+            center="select"
+            // onKeyCenter={onKeyCenter}
+            right={softkey.right}
+            // onKeyRight={onKeyRight}
+          />
+        </div>
       )}
-      <Header />
-      <Search placeholder={`Search ${status}`} />
-      <RecordsContainer records={records} onDelete={onDelete} />
-      <Softkey
-        left={softkey.left}
-        center={softkey.center}
-        // onKeyCenter={onKeyCenter}
-        right={softkey.right}
-        // onKeyRight={onKeyRight}
-      />
     </div>
   );
 };
