@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import uuid from "uuid/v4";
 import moment from "moment";
 import CallPassive from "../../../SVG/CallPassive/CallPassive";
+import ChangeTitlePrompt from "../../ChangeTitlePrompt/ChangeTitlePrompt";
 import db from "../../../db/indexedDB";
 import styles from "./Contact.css";
 
 const Contact = ({ contact, mediaRecorder, addRecord }) => {
+  const [isShownPrompt, setIsShownPrompt] = useState(false);
   let chunks = [];
   let startRecord;
 
@@ -24,10 +26,14 @@ const Contact = ({ contact, mediaRecorder, addRecord }) => {
       mediaRecorder.onstop = () => {
         const duration = moment().diff(startRecord, "milliseconds");
 
-        const title = prompt(
-          "Enter a name for your record?",
-          "My unnamed clip"
-        );
+        setIsShownPrompt(true);
+
+        // const title = prompt(
+        //   "Enter a name for your record?",
+        //   "My unnamed clip"
+        // );
+
+        const title = "test";
 
         const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
         chunks = [];
@@ -73,6 +79,11 @@ const Contact = ({ contact, mediaRecorder, addRecord }) => {
         className={styles.call}
         style={{ background: "red" }}
       ></div>
+      {isShownPrompt && (
+        <div className={styles.prompt}>
+          <ChangeTitlePrompt text="Set title of the record" />
+        </div>
+      )}
     </div>
   );
 };

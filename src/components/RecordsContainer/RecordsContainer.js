@@ -4,11 +4,11 @@ import Records from "./Records/Records";
 import styles from "./RecordsContainer.css";
 
 export const RecordsContainer = ({ records, onDelete }) => {
-  const [isRecordsShown, setIsRecordsShown] = useState(false);
+  const [recordTel, setRecordTel] = useState(false);
   const displayedRecords = [];
   const sortedRecords = records.sort((a, b) => (a.date > b.date ? -1 : 1));
-  return isRecordsShown ? (
-    <Records recordTel={isRecordsShown} />
+  return recordTel ? (
+    <Records recordTel={recordTel} />
   ) : (
     <div className={styles.wrapper}>
       {sortedRecords.length ? (
@@ -22,7 +22,7 @@ export const RecordsContainer = ({ records, onDelete }) => {
           displayedRecords.push(record.tel);
 
           return (
-            <div key={record.id} onClick={() => setIsRecordsShown(record.tel)}>
+            <div key={record.id} onClick={() => setRecordTel(record.tel)}>
               <div className={styles.itemWrapper}>
                 <div className={styles.top}>
                   <p className={styles.name}>{record.name}</p>

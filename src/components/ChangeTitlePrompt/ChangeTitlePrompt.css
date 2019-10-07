@@ -1,0 +1,14 @@
+.wrapper {
+  height: 80px;
+  background-color: #d84315;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+  z-index: 2;
+}
+
+.input {
+  border-radius: 1px;
+  box-shadow: inset 0 0 3px 0 #bf360c;
+  background-color: #ffffff;
+}

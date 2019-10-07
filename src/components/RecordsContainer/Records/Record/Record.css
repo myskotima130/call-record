@@ -2,12 +2,51 @@
   border-radius: 6px;
   background-color: #ffffff;
   margin: 15px 0;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 9px;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .title {
   padding: 6px 0 2px 0;
   margin-left: 40px;
   font-size: 12px;
+  color: #1e1d20;
+  font-weight: 500;
+  margin: 0;
+}
+
+.fromNow {
+  font-size: 10px;
+  font-weight: 500;
+  text-align: right;
+  color: #797e83;
+}
+
+.timeWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.currentTime,
+.duration {
+  font-size: 10px;
+  font-weight: 500;
   color: #1e1d20;
 }
 

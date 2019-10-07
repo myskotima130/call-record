@@ -37,3 +37,9 @@
   border-radius: 50%;
   background-color: #95c555;
 }
+
+.prompt {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
