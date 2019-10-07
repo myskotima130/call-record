@@ -5,7 +5,8 @@ import {
   ContactsContainer,
   Search,
   Header,
-  Softkey
+  Softkey,
+  CallRecieve
 } from "./components";
 import db from "./db/indexedDB";
 import styles from "./App.css";
@@ -15,6 +16,30 @@ const App = () => {
   const [records, setRecords] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [status, setStatus] = useState("contact");
+  const [telephonyCall, setTelephonyCall] = useState(navigator.mozTelephony);
+  const [callInfo, setCallInfo] = useState({
+    callerNumber: 0,
+    callerName: ""
+  });
+  const [isShownCall, setIsShownCall] = useState(false);
+
+  useEffect(() => {
+    telephonyCall.onincoming = e => {
+      const requestName = navigator.mozContacts.find({
+        filterBy: ["tel"],
+        filterValue: e.call.id
+      });
+
+      requestName.onsuccess = function() {
+        setCallInfo({
+          callerName: this.result.name,
+          callerNumber: e.call.id
+        });
+
+        isShownCall(true);
+      };
+    };
+  }, [telephonyCall]);
 
   const addRecord = record => setRecords([...records, record]);
 
@@ -106,6 +131,7 @@ const App = () => {
 
   return (
     <div className="App">
+      {isShownCall && <CallRecieve name={callInfo.callerName} />}
       <Header />
       <Search placeholder={`Search ${status}`} />
       <div className={styles.menu}>

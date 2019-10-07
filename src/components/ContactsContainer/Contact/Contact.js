@@ -26,14 +26,14 @@ const Contact = ({ contact, mediaRecorder, addRecord }) => {
       mediaRecorder.onstop = () => {
         const duration = moment().diff(startRecord, "milliseconds");
 
-        setIsShownPrompt(true);
+        // setIsShownPrompt(true);
 
-        // const title = prompt(
-        //   "Enter a name for your record?",
-        //   "My unnamed clip"
-        // );
+        const title = prompt(
+          "Enter a name for your record?",
+          "My unnamed clip"
+        );
 
-        const title = "test";
+        // const title = "test";
 
         const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
         chunks = [];
