@@ -1,8 +1,17 @@
 .wrapper {
+  position: relative;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   z-index: 2;
+}
+
+.textWrapper {
+  margin-bottom: 30px;
 }
 
 p {
@@ -10,6 +19,7 @@ p {
   font-weight: 500;
   text-align: center;
   color: #ffffff;
+  line-height: 22px;
 }
 
 .call {
@@ -17,4 +27,19 @@ p {
   height: 23px;
   border-radius: 50%;
   background-color: #95c555;
+}
+
+.prompt {
+  width: 100%;
+  position: absolute;
+  bottom: 26px;
+}
+
+.bottomLine {
+  height: 4px;
+  background-color: #d84315;
+  width: 100%;
+  position: absolute;
+  bottom: 26px;
+  z-index: 3;
 }

@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import db from "../../db/indexedDB";
-import CallPassive from "../../SVG/CallPassive/CallPassive";
-import ChangeTitlePrompt from "../ChangeTitlePrompt/ChangeTitlePrompt";
+import PlayBig from "../../SVG/PlayBig/PlayBig";
+import { TitlePrompt } from "../TitlePrompt/TitlePrompt";
 import uuid from "uuid/v4";
 import styles from "./CallReceive.css";
 
-export const CallReceive = ({ callInfo, mediaRecorder, addRecord }) => {
+export const CallReceive = ({
+  callInfo,
+  mediaRecorder,
+  addRecord,
+  setSoftkey
+}) => {
   const [isShownPrompt, setIsShownPrompt] = useState(false);
+  const [title, setTitle] = useState("Record");
+
   let chunks = [];
   let startRecord;
 
@@ -18,20 +25,27 @@ export const CallReceive = ({ callInfo, mediaRecorder, addRecord }) => {
   };
 
   const onStopClick = () => {
+    setIsShownPrompt(true);
     mediaRecorder.stop();
-
     console.log("recorder stopped");
+  };
+
+  useEffect(() => {
+    setSoftkey({
+      left: "",
+      center: "Start recording",
+      right: "",
+      onKeyCenter: onCall
+    });
 
     if (mediaRecorder) {
       mediaRecorder.onstop = () => {
         const duration = moment().diff(startRecord, "milliseconds");
 
-        // setIsShownPrompt(true);
-
-        const title = prompt(
-          "Enter a name for your record?",
-          "My unnamed clip"
-        );
+        // const title = prompt(
+        //   "Enter a name for your record?",
+        //   "My unnamed clip"
+        // );
 
         // const title = "test";
 
@@ -63,15 +77,18 @@ export const CallReceive = ({ callInfo, mediaRecorder, addRecord }) => {
         chunks.push(e.data);
       };
     }
-  };
+  }, [title]);
 
   return (
     <div className={styles.wrapper}>
-      <p>You are talking with</p>
-      <p>{callInfo.callerName}</p>
-      <div onClick={onCall}>
-        <CallPassive />
+      <div className={styles.textWrapper}>
+        <p>You are talking with</p>
+        <p>{callInfo.callerName}</p>
       </div>
+      <div onClick={onCall}>
+        <PlayBig />
+      </div>
+      <div className={styles.bottomLine} />
       <div
         onClick={onStopClick}
         className={styles.call}
@@ -79,7 +96,11 @@ export const CallReceive = ({ callInfo, mediaRecorder, addRecord }) => {
       ></div>
       {isShownPrompt && (
         <div className={styles.prompt}>
-          <ChangeTitlePrompt text="Set title of the record" />
+          <TitlePrompt
+            text="Enter a name for your record"
+            setTitle={setTitle}
+            setSoftkey={setSoftkey}
+          />
         </div>
       )}
     </div>

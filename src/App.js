@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import classnames from "classnames";
 import {
   RecordsContainer,
-  ContactsContainer,
   Search,
   Header,
   Softkey,
@@ -14,12 +12,16 @@ import styles from "./App.css";
 const App = () => {
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [records, setRecords] = useState([]);
-  const [contacts, setContacts] = useState([]);
-  const [status, setStatus] = useState("contact");
   const [telephonyCall] = useState(navigator.mozTelephony);
   const [callInfo, setCallInfo] = useState({
     callerNumber: "",
     callerName: ""
+  });
+  const [softkey, setSoftkey] = useState({
+    left: "",
+    center: "",
+    right: "",
+    onKeyCenter: ""
   });
 
   useEffect(() => {
@@ -39,8 +41,8 @@ const App = () => {
       };
     } else {
       setCallInfo({
-        callerName: "test name",
-        callerNumber: "+380985367942"
+        callerName: "test name2",
+        callerNumber: "+380988367942"
       });
     }
   }, [telephonyCall]);
@@ -53,16 +55,6 @@ const App = () => {
     });
   };
 
-  const contactStyle = classnames(styles.item, {
-    [styles.active]: status === "contact",
-    [styles.passive]: status !== "contact"
-  });
-
-  const recordsStyle = classnames(styles.item, {
-    [styles.active]: status === "records",
-    [styles.passive]: status !== "records"
-  });
-
   const onDelete = id => {
     db.records.delete(id);
     setRecords([...records.filter(record => record.id !== id)]);
@@ -70,52 +62,6 @@ const App = () => {
 
   useEffect(() => {
     db.records.toArray(data => setRecords(data));
-
-    if (navigator.mozContacts) {
-      const requestContacts = navigator.mozContacts.getAll({ sortBy: name }); // filterValue: (tel number)
-      requestContacts.onsuccess = function() {
-        if (this.result) {
-          console.log("Name of Contact" + this.result.name);
-          console.log("Number of Contact" + this.result.tel[0].value);
-
-          contacts.push({
-            name: this.result.name,
-            tel: this.result.tel[0].value
-          });
-
-          this.continue();
-        } else {
-          setContacts(contacts);
-        }
-      };
-    } else {
-      setContacts([
-        {
-          name: "Amie Meyer",
-          tel: "+380980243825"
-        },
-        {
-          name: "azet Gray",
-          tel: "+380982243325"
-        },
-        {
-          name: "Berest Moss",
-          tel: "+380987273875"
-        },
-        {
-          name: "Bob Smit",
-          tel: "+380987243873"
-        },
-        {
-          name: "Boniface Esanji",
-          tel: "+380926784875"
-        },
-        {
-          name: "Evelin Allen",
-          tel: "+380995033873"
-        }
-      ]);
-    }
 
     if (!navigator.mediaDevices) {
       navigator.mediaDevices = {};
@@ -135,44 +81,24 @@ const App = () => {
     }
   }, []);
 
-  const onClickContact = () => {
-    setStatus("contact");
-  };
-
   return (
-    <div className="App">
+    <div className={styles.wrapper}>
       {callInfo.callerNumber && (
         <CallReceive
           callInfo={callInfo}
           mediaRecorder={mediaRecorder}
           addRecord={addRecord}
+          setSoftkey={setSoftkey}
         />
       )}
       <Header />
       <Search placeholder={`Search ${status}`} />
-      <div className={styles.menu}>
-        <p className={contactStyle} onClick={onClickContact}>
-          Contacts
-        </p>
-        <p className={recordsStyle} onClick={() => setStatus("records")}>
-          Records
-        </p>
-      </div>
-      {status === "contact" && (
-        <ContactsContainer
-          addRecord={addRecord}
-          contacts={contacts}
-          mediaRecorder={mediaRecorder}
-        />
-      )}
-      {status === "records" && (
-        <RecordsContainer records={records} onDelete={onDelete} />
-      )}
+      <RecordsContainer records={records} onDelete={onDelete} />
       <Softkey
-        center="Select"
+        left={softkey.left}
+        center={softkey.center}
         // onKeyCenter={onKeyCenter}
-        right="Delete"
-        left="Rename"
+        right={softkey.right}
         // onKeyRight={onKeyRight}
       />
     </div>

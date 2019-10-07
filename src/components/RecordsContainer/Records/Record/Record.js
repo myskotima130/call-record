@@ -46,12 +46,9 @@ const Record = ({ record }) => {
         component: <Play />,
         value: audioRef.current.currentTime
       });
-      audioRef.current.ended = true;
     }
 
     audioRef.current.ontimeupdate = () => {
-      console.log(audioRef.current.ended);
-
       progressRef.current.value = Math.ceil(
         (audioRef.current.currentTime / record.duration) * 100 * 1000
       );
