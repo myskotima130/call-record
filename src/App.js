@@ -6,7 +6,7 @@ import {
   Search,
   Header,
   Softkey,
-  CallRecieve
+  CallReceive
 } from "./components";
 import db from "./db/indexedDB";
 import styles from "./App.css";
@@ -16,32 +16,42 @@ const App = () => {
   const [records, setRecords] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [status, setStatus] = useState("contact");
-  const [telephonyCall, setTelephonyCall] = useState(navigator.mozTelephony);
+  const [telephonyCall] = useState(navigator.mozTelephony);
   const [callInfo, setCallInfo] = useState({
-    callerNumber: 0,
+    callerNumber: "",
     callerName: ""
   });
-  const [isShownCall, setIsShownCall] = useState(false);
 
   useEffect(() => {
-    telephonyCall.onincoming = e => {
-      const requestName = navigator.mozContacts.find({
-        filterBy: ["tel"],
-        filterValue: e.call.id
-      });
-
-      requestName.onsuccess = function() {
-        setCallInfo({
-          callerName: this.result.name,
-          callerNumber: e.call.id
+    if (telephonyCall) {
+      telephonyCall.onincoming = e => {
+        const requestName = navigator.mozContacts.find({
+          filterBy: ["tel"],
+          filterValue: e.call.id
         });
 
-        isShownCall(true);
+        requestName.onsuccess = function() {
+          setCallInfo({
+            callerName: this.result.name,
+            callerNumber: e.call.id
+          });
+        };
       };
-    };
+    } else {
+      setCallInfo({
+        callerName: "test name",
+        callerNumber: "+380985367942"
+      });
+    }
   }, [telephonyCall]);
 
-  const addRecord = record => setRecords([...records, record]);
+  const addRecord = record => {
+    setRecords([...records, record]);
+    setCallInfo({
+      callerName: "",
+      callerNumber: ""
+    });
+  };
 
   const contactStyle = classnames(styles.item, {
     [styles.active]: status === "contact",
@@ -131,7 +141,13 @@ const App = () => {
 
   return (
     <div className="App">
-      {isShownCall && <CallRecieve name={callInfo.callerName} />}
+      {callInfo.callerNumber && (
+        <CallReceive
+          callInfo={callInfo}
+          mediaRecorder={mediaRecorder}
+          addRecord={addRecord}
+        />
+      )}
       <Header />
       <Search placeholder={`Search ${status}`} />
       <div className={styles.menu}>
