@@ -1,0 +1,16 @@
+.wrapper {
+  z-index: 11;
+  width: 100%;
+  position: absolute;
+  bottom: 26px;
+}
+
+.item {
+  padding: 13px 10px;
+  margin: 0;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  color: #1e1d20;
+  background: #ffffff;
+}

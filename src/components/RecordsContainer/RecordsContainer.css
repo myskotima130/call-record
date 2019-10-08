@@ -2,6 +2,13 @@
   padding: 0 10px;
 }
 
+.options {
+  height: calc(100vh - 65px);
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 14;
+}
+
 .noRecordsText {
   text-align: center;
   font-size: 12px;

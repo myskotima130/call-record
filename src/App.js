@@ -34,8 +34,8 @@ const App = () => {
       };
     } else {
       setCallInfo({
-        callerName: "test name2",
-        callerNumber: "+380988367942"
+        callerName: "Roman Kutepov",
+        callerNumber: "+380971767942"
       });
     }
   }, [telephonyCall]);
@@ -86,14 +86,20 @@ const App = () => {
       ) : (
         <div>
           <Search placeholder={`Search ${status}`} />
-          <RecordsContainer records={records} onDelete={onDelete} />
+          <RecordsContainer
+            setSoftkey={setSoftkey}
+            softkey={softkey}
+            records={records}
+            onDelete={onDelete}
+          />
 
           <Softkey
             left={softkey.left}
-            center="select"
-            // onKeyCenter={onKeyCenter}
+            onKeyLeft={softkey.onKeyLeft}
+            center={softkey.center}
+            onKeyCenter={softkey.onKeyCenter}
             right={softkey.right}
-            // onKeyRight={onKeyRight}
+            onKeyRight={softkey.onKeyRight}
           />
         </div>
       )}

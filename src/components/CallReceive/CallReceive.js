@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import db from "../../db/indexedDB";
 import PlayBig from "../../SVG/PlayBig/PlayBig";
@@ -32,8 +32,6 @@ export const CallReceive = ({
     if (mediaRecorder) {
       mediaRecorder.onstop = () => {
         const duration = moment().diff(startRecord, "milliseconds");
-
-        console.log(startRecord);
 
         const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
         chunks = [];
@@ -71,24 +69,27 @@ export const CallReceive = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.textWrapper}>
-        <p>You are talking with</p>
-        <p>{callInfo.callerName}</p>
-      </div>
-      <PlayBig />
-      <div className={styles.bottomLine} />
-      <div
-        onClick={onStopClick}
-        className={styles.call}
-        style={{ background: "red" }}
-      ></div>
-      {isShownPrompt && (
+      {isShownPrompt ? (
         <div className={styles.prompt}>
           <TitlePrompt
             text="Enter a name for your record"
             setTitle={setTitle}
           />
         </div>
+      ) : (
+        <React.Fragment>
+          <div className={styles.textWrapper}>
+            <p>You are talking with</p>
+            <p>{callInfo.callerName}</p>
+          </div>
+          <PlayBig />
+          <div className={styles.bottomLine} />
+          <div
+            onClick={onStopClick}
+            className={styles.call}
+            style={{ background: "red" }}
+          />
+        </React.Fragment>
       )}
       <Softkey
         left=""

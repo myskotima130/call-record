@@ -32,11 +32,15 @@ export const Softkey = ({
 
   return (
     <div className={styles.wrapper}>
-      <label className={styles.left}>{left}</label>
+      <label onClick={onKeyLeft} className={styles.left}>
+        {left}
+      </label>
       <label onClick={onKeyCenter} className={styles.center}>
         {center}
       </label>
-      <label className={styles.right}>{right}</label>
+      <label onClick={onKeyRight} className={styles.right}>
+        {right}
+      </label>
     </div>
   );
 };

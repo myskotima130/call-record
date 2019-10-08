@@ -18,8 +18,7 @@ label {
 .center {
   text-transform: uppercase;
   text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap;
   width: 100%;
 }
 
@@ -28,6 +27,7 @@ label {
   overflow: hidden;
   box-sizing: border-box;
   text-overflow: ellipsis;
+  width: 100%;
 }
 
 .right {

@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Records.css";
-import Record from './Record/Record';
+import Record from "./Record/Record";
 import db from "../../../db/indexedDB";
 
 const Records = ({ recordTel }) => {
   const [records, setRecords] = useState([]);
-  
+
   useEffect(() => {
     db.records.where({ tel: recordTel }).toArray(data => setRecords(data));
   }, []);
+  const sortedRecords = records.sort((a, b) => (a.date > b.date ? -1 : 1));
 
-  return records.length > 0 ? (
+  return sortedRecords.length > 0 ? (
     <div className={styles.wrapper}>
-      {records.map((record, index) => (
-        <Record  key={record.id} record={record} />
+      {sortedRecords.map((record, index) => (
+        <Record key={record.id} record={record} />
       ))}
     </div>
   ) : null;
