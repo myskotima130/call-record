@@ -1,12 +1,16 @@
 import React from "react";
+import { convertMS } from "../../../helpers/convertMS";
 import styles from "./Records.css";
 import Record from "./Record/Record";
 
 const Records = ({ sortedRecords, contact }) => {
-  console.log(contact);
+  const sumTime = sortedRecords.reduce(
+    (sum, current) => sum + current.duration,
+    0
+  );
 
   return sortedRecords.length > 0 ? (
-    <div className={styles.wrapper}>
+    <React.Fragment>
       <div className={styles.itemWrapper}>
         <div className={styles.top}>
           <p className={styles.name}>{contact.name}</p>
@@ -14,13 +18,15 @@ const Records = ({ sortedRecords, contact }) => {
         </div>
         <div className={styles.bottom}>
           <p className={styles.tel}>{contact.tel}</p>
-          <p className={styles.fromNow}>0:00:00</p>
+          <p className={styles.fromNow}>{convertMS(sumTime)}</p>
         </div>
       </div>
-      {sortedRecords.map((record, index) => (
-        <Record key={record.id} record={record} />
-      ))}
-    </div>
+      <div className={styles.wrapper}>
+        {sortedRecords.map((record, index) => (
+          <Record key={record.id} record={record} />
+        ))}
+      </div>
+    </React.Fragment>
   ) : null;
 };
 

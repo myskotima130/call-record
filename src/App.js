@@ -48,8 +48,8 @@ const App = () => {
       };
     } else {
       setCallInfo({
-        callerName: "Roman Kutepov",
-        callerNumber: "+380998257938"
+        callerName: "Artem Maslov",
+        callerNumber: "+380998254373"
       });
     }
   }, [telephonyCall]);

@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import PlayPassive from "../../../../SVG/PlayPassive/PlayPassive";
 import Play from "../../../../SVG/Play/Play";
 import Stop from "../../../../SVG/Stop/Stop";
+import { convertMS } from "../../../../helpers/convertMS";
 import moment from "moment";
 import styles from "./Record.css";
 
@@ -32,9 +33,9 @@ const Record = ({ record }) => {
   const onClickPlay = () => {
     if (button.type === "passive" || button.type === "play") {
       setButton({
+        ...button,
         type: "stop",
-        component: <Stop />,
-        value: button.value
+        component: <Stop />
       });
     } else if (button.type === "stop") {
       setButton({
@@ -45,15 +46,18 @@ const Record = ({ record }) => {
     }
 
     audioRef.current.ontimeupdate = () => {
-      progressRef.current.value = Math.ceil(
-        (audioRef.current.currentTime / record.duration) * 100 * 1000
-      );
-      timeRef.current.value = moment(
-        Math.ceil(audioRef.current.currentTime) * 1000
-      ).format("mm:ss");
+      if (!audioRef.current.paused) {
+        progressRef.current.value = Math.ceil(
+          (audioRef.current.currentTime / record.duration) * 100 * 1000
+        );
+        timeRef.current.value = convertMS(
+          Math.ceil(audioRef.current.currentTime) * 1000
+        );
+      }
+
       if (audioRef.current.ended) {
         progressRef.current.value = 100;
-        timeRef.current.value = `${moment(record.duration).format("mm:ss")}`;
+        timeRef.current.value = `${convertMS(record.duration)}`;
         setButton({
           type: "play",
           component: <Play />,
@@ -76,17 +80,16 @@ const Record = ({ record }) => {
           ref={progressRef}
           className={styles.statusBar}
           max={100}
-        ></progress>
+          value={Math.ceil((button.value / record.duration) * 100 * 1000)}
+        />
         <div className={styles.timeWrapper}>
           <input
             className={styles.currentTime}
             ref={timeRef}
-            defaultValue="00:00"
+            value={convertMS(Math.ceil(button.value) * 1000)}
             disabled
           />
-          <h3 className={styles.duration}>
-            {moment(record.duration).format("mm:ss")}
-          </h3>
+          <h3 className={styles.duration}>{convertMS(record.duration)}</h3>
         </div>
       </div>
     </div>

@@ -6,9 +6,12 @@
 
 .itemWrapper {
   padding: 3px 0;
+  padding: 3px 10px 4px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #ffffff;
+  height: 40px;
 }
 
 .top,
