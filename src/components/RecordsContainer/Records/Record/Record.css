@@ -7,6 +7,11 @@
   align-items: center;
 }
 
+.itemWrapper[nav-selected="true"] {
+  border: solid 1px #d84315;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.09);
+}
+
 .content {
   display: flex;
   flex-direction: column;

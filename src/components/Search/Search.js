@@ -2,12 +2,16 @@ import React from "react";
 import SearchIcon from "../../SVG/SearchIcon/SearchIcon";
 import styles from "./Search.css";
 
-export const Search = ({ placeholder }) => {
+export const Search = ({ placeholder, selectable }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.input}>
         <SearchIcon />
-        <input type="text" placeholder={placeholder}></input>
+        <input
+          nav-selectable={selectable ? "true" : null}
+          type="text"
+          placeholder={placeholder}
+        ></input>
       </div>
     </div>
   );

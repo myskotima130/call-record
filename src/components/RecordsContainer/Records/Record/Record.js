@@ -18,13 +18,11 @@ const Record = ({ record }) => {
   useEffect(() => {
     if (button.type === "stop") {
       audioRef.current.currentTime = button.value;
-      console.log(audioRef.current.currentTime);
 
       audioRef.current.play();
 
       console.log("play(resume)");
     } else if (button.type === "play") {
-      console.log(button.value);
       audioRef.current.currentTime = button.value;
       audioRef.current.pause();
       console.log("pause()");
@@ -32,8 +30,6 @@ const Record = ({ record }) => {
   }, [button]);
 
   const onClickPlay = () => {
-    console.log(audioRef);
-
     if (button.type === "passive" || button.type === "play") {
       setButton({
         type: "stop",
@@ -52,17 +48,12 @@ const Record = ({ record }) => {
       progressRef.current.value = Math.ceil(
         (audioRef.current.currentTime / record.duration) * 100 * 1000
       );
-      timeRef.current.value = `${audioRef.current.currentTime
-        .toFixed(2)
-        .toString()
-        .replace(".", ":")}`;
+      timeRef.current.value = moment(
+        Math.ceil(audioRef.current.currentTime) * 1000
+      ).format("mm:ss");
       if (audioRef.current.ended) {
         progressRef.current.value = 100;
-        timeRef.current.value = `${(record.duration / 1000)
-          .toFixed(2)
-          .toString()
-          .replace(".", ":")}`;
-
+        timeRef.current.value = `${moment(record.duration).format("mm:ss")}`;
         setButton({
           type: "play",
           component: <Play />,
@@ -73,7 +64,7 @@ const Record = ({ record }) => {
   };
 
   return (
-    <div className={styles.itemWrapper}>
+    <div className={styles.itemWrapper} nav-selectable="true" record="true">
       <div onClick={onClickPlay}>{button.component}</div>
       <div className={styles.content}>
         <div className={styles.header}>
@@ -94,10 +85,7 @@ const Record = ({ record }) => {
             disabled
           />
           <h3 className={styles.duration}>
-            {(record.duration / 1000)
-              .toFixed(2)
-              .toString()
-              .replace(".", ":")}
+            {moment(record.duration).format("mm:ss")}
           </h3>
         </div>
       </div>

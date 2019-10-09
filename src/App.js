@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { RecordsContainer, Search, Softkey, CallReceive } from "./components";
+import {
+  RecordsContainer,
+  Search,
+  Softkey,
+  CallReceive,
+  WelcomPage
+} from "./components";
 import db from "./db/indexedDB";
 import styles from "./App.css";
 
 const App = () => {
   const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [isShowOptions, setIsShowOptions] = useState(false);
   const [records, setRecords] = useState([]);
   const [telephonyCall] = useState(navigator.mozTelephony);
   const [callInfo, setCallInfo] = useState({
@@ -31,11 +38,18 @@ const App = () => {
             callerNumber: e.call.id
           });
         };
+
+        requestName.onerror = function() {
+          setCallInfo({
+            callerName: "Unknown",
+            callerNumber: e.call.id
+          });
+        };
       };
     } else {
       setCallInfo({
         callerName: "Roman Kutepov",
-        callerNumber: "+380971767942"
+        callerNumber: "+380998257938"
       });
     }
   }, [telephonyCall]);
@@ -85,22 +99,33 @@ const App = () => {
         />
       ) : (
         <div>
-          <Search placeholder={`Search ${status}`} />
-          <RecordsContainer
-            setSoftkey={setSoftkey}
-            softkey={softkey}
-            records={records}
-            onDelete={onDelete}
-          />
+          {records ? (
+            <React.Fragment>
+              <Search
+                placeholder={`Search ${status}`}
+                selectable={!isShowOptions}
+              />
+              <RecordsContainer
+                setSoftkey={setSoftkey}
+                softkey={softkey}
+                contacts={records}
+                onDelete={onDelete}
+                isShowOptions={isShowOptions}
+                setIsShowOptions={setIsShowOptions}
+              />
 
-          <Softkey
-            left={softkey.left}
-            onKeyLeft={softkey.onKeyLeft}
-            center={softkey.center}
-            onKeyCenter={softkey.onKeyCenter}
-            right={softkey.right}
-            onKeyRight={softkey.onKeyRight}
-          />
+              <Softkey
+                left={softkey.left}
+                onKeyLeft={softkey.onKeyLeft}
+                center={softkey.center}
+                onKeyCenter={softkey.onKeyCenter}
+                right={softkey.right}
+                onKeyRight={softkey.onKeyRight}
+              />
+            </React.Fragment>
+          ) : (
+            <WelcomPage />
+          )}
         </div>
       )}
     </div>

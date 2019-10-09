@@ -43,7 +43,7 @@ export const CallReceive = ({
           name: callInfo.callerName,
           tel: callInfo.callerNumber,
           date: new Date(),
-          duration
+          duration: duration < 1000 ? 1000 : duration
         });
       };
 
@@ -54,8 +54,6 @@ export const CallReceive = ({
   };
 
   const onSave = () => {
-    console.log("onsave", title);
-
     db.records.add({
       ...record,
       title
@@ -74,6 +72,7 @@ export const CallReceive = ({
           <TitlePrompt
             text="Enter a name for your record"
             setTitle={setTitle}
+            value={title}
           />
         </div>
       ) : (
@@ -82,13 +81,10 @@ export const CallReceive = ({
             <p>You are talking with</p>
             <p>{callInfo.callerName}</p>
           </div>
-          <PlayBig />
+          <div onClick={onStopClick}>
+            <PlayBig />
+          </div>
           <div className={styles.bottomLine} />
-          <div
-            onClick={onStopClick}
-            className={styles.call}
-            style={{ background: "red" }}
-          />
         </React.Fragment>
       )}
       <Softkey

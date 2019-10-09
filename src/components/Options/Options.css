@@ -2,7 +2,7 @@
   z-index: 11;
   width: 100%;
   position: absolute;
-  bottom: 26px;
+  bottom: 0;
 }
 
 .item {
@@ -13,4 +13,14 @@
   font-weight: 500;
   color: #1e1d20;
   background: #ffffff;
+}
+
+a {
+  text-decoration: none;
+  color: #1e1d20;
+}
+
+.item[nav-selected="true"],
+a[nav-selected="true"] {
+  color: #bf360c;
 }

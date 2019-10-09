@@ -3,7 +3,9 @@
 }
 
 .options {
-  height: calc(100vh - 65px);
+  position: absolute;
+  height: calc(100vh - 26px);
+  top: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.8);
   z-index: 14;
@@ -20,6 +22,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.itemWrapper[nav-selected="true"] > .top > .col {
+  color: #ffffff;
+  background-color: #d84315;
+}
+
+.itemWrapper[nav-selected="true"] > .top > .name {
+  color: #d84315;
 }
 
 .top,
@@ -42,6 +53,8 @@
   border-radius: 1px;
   background-color: #f7f7f7;
   font-size: 12px;
+  line-height: 14px;
+  padding: 1px;
   font-weight: 500;
   color: #d84315;
 }
