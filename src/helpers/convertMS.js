@@ -1,11 +1,10 @@
 export const convertMS = milliseconds => {
-  let day, hours, minutes, seconds;
+  let hours, minutes, seconds;
   seconds = Math.floor(milliseconds / 1000);
   minutes = Math.floor(seconds / 60);
-  seconds %= 60;
   hours = Math.floor(minutes / 60);
+  seconds %= 60;
   minutes %= 60;
-  day = Math.floor(hours / 24);
   hours %= 24;
 
   seconds = seconds < 10 && seconds > 0 ? `0${seconds}` : seconds;

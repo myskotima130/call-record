@@ -48,8 +48,8 @@ const App = () => {
       };
     } else {
       setCallInfo({
-        callerName: "Artem Maslov",
-        callerNumber: "+380998254373"
+        callerName: "Ruslan Zinchenko",
+        callerNumber: "+380997184978"
       });
     }
   }, [telephonyCall]);

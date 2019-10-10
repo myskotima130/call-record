@@ -11,6 +11,7 @@ export const TitlePrompt = ({ text, setTitle, value = "Record" }) => {
         onChange={e => setTitle(e.currentTarget.value)}
         value={value}
         nav-selectable="true"
+        option="true"
         autoFocus
       ></input>
     </div>

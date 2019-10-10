@@ -27,10 +27,18 @@ export const RecordsContainer = pure(
     const sortedRecords = records.sort((a, b) => (a.date > b.date ? -1 : 1));
 
     useEffect(() => {
-      db.records.where({ tel: recordTel }).toArray(data => setRecords(data));
+      if (recordTel) {
+        db.records
+          .where("tel")
+          .equals(recordTel)
+          .toArray(data => setRecords(data));
+      }
+      setIndex(0);
+      scroll(0, 0);
     }, [recordTel]);
 
     const showOptions = () => setIsShowOptions(!isShowOptions);
+
     const getBack = () => {
       if (!isShowOptions) {
         setRecordTel(null);
@@ -39,29 +47,33 @@ export const RecordsContainer = pure(
     };
 
     useEffect(() => {
-      const element = document.querySelector("[nav-selected=true]");
-      const index = element
-        ? parseInt(element.getAttribute("nav-index"), 10)
-        : 0;
+      if (!isShowOptions) {
+        const element = document.querySelector("[nav-selected=true]");
+        const index = element
+          ? parseInt(element.getAttribute("nav-index"), 10)
+          : 0;
 
-      setIndex(index);
+        setIndex(index);
 
-      if (index > 2) {
-        element.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
+        if (element.getAttribute("record")) {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else if (index > 6) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
 
-      if (sortedContacts.length && index > 0) {
-        setSoftkey({
-          ...softkey,
-          onKeyCenter: () => {
-            if (element.getAttribute("record")) {
-              element.children[0].click();
-            } else {
-              setRecordTel(displayedRecords[index - 1].tel);
-              setContact(displayedRecords[index - 1]);
+        if (sortedContacts.length && index > 0) {
+          setSoftkey({
+            ...softkey,
+            onKeyCenter: () => {
+              if (element.getAttribute("record")) {
+                element.children[0].click();
+              } else if (element.getAttribute("contact")) {
+                setRecordTel(displayedRecords[index - 1].tel);
+                setContact(displayedRecords[index - 1]);
+              }
             }
-          }
-        });
+          });
+        }
       }
     }, [current]);
 
@@ -85,10 +97,27 @@ export const RecordsContainer = pure(
       getBack();
     };
 
+    const onUpdateTitle = (id, title) => {
+      setRecords([
+        ...records.map(record =>
+          record.id === id ? { ...record, title } : record
+        )
+      ]);
+      db.records.update(id, { title });
+      getBack();
+    };
+
     return recordTel ? (
       isShowOptions ? (
         <div className={styles.options}>
-          <Options onDelete={onDeleteClick} record={sortedRecords[index - 1]} />
+          <Options
+            onDelete={onDeleteClick}
+            record={sortedRecords[index - 1]}
+            setSoftkey={setSoftkey}
+            softkey={softkey}
+            current={current}
+            onUpdateTitle={onUpdateTitle}
+          />
         </div>
       ) : (
         <Records sortedRecords={sortedRecords} contact={contact} />
@@ -111,6 +140,7 @@ export const RecordsContainer = pure(
                 nav-selectable="true"
                 key={record.id}
                 onClick={() => setRecordTel(record.tel)}
+                contact="true"
               >
                 <div className={styles.top}>
                   <p className={styles.name}>{record.name}</p>
