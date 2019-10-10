@@ -4,7 +4,7 @@ import {
   Search,
   Softkey,
   CallReceive,
-  WelcomPage
+  WelcomePage
 } from "./components";
 import db from "./db/indexedDB";
 import styles from "./App.css";
@@ -47,10 +47,10 @@ const App = () => {
         };
       };
     } else {
-      setCallInfo({
-        callerName: "Ruslan Zinchenko",
-        callerNumber: "+380997184978"
-      });
+      // setCallInfo({
+      //   callerName: "Ruslan Zinchenko",
+      //   callerNumber: "+380997184978"
+      // });
     }
   }, [telephonyCall]);
 
@@ -68,7 +68,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    db.records.toArray(data => setRecords(data));
+    // db.records.toArray(data => setRecords(data));
 
     if (!navigator.mediaDevices) {
       navigator.mediaDevices = {};
@@ -99,7 +99,7 @@ const App = () => {
         />
       ) : (
         <div>
-          {records ? (
+          {records.length ? (
             <React.Fragment>
               <Search
                 placeholder={`Search ${status}`}
@@ -113,7 +113,6 @@ const App = () => {
                 isShowOptions={isShowOptions}
                 setIsShowOptions={setIsShowOptions}
               />
-
               <Softkey
                 left={softkey.left}
                 onKeyLeft={softkey.onKeyLeft}
@@ -124,7 +123,7 @@ const App = () => {
               />
             </React.Fragment>
           ) : (
-            <WelcomPage />
+            <WelcomePage />
           )}
         </div>
       )}
