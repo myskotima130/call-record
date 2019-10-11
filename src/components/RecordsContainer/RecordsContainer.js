@@ -55,8 +55,9 @@ export const RecordsContainer = pure(
 
         setIndex(index);
 
-        if (element.getAttribute("record")) {
-          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (element.getAttribute("record") && index > 3) {
+          element.scrollIntoView(false);
+          scroll(0, pageYOffset + 40);
         } else if (index > 6) {
           element.scrollIntoView({ behavior: "smooth", block: "start" });
         }
