@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { pure } from "recompose";
 import moment from "moment";
 import { Options } from "../Options/Options";
+import { Search } from "../Search/Search";
 import { useNavigation } from "../../hooks";
 import db from "../../db/indexedDB";
 import Records from "./Records/Records";
@@ -55,7 +56,13 @@ export const RecordsContainer = pure(
 
         setIndex(index);
 
-        if (element.getAttribute("record") && index > 3) {
+        if (element.getAttribute("search")) {
+          setSoftkey({
+            ...softkey,
+            center: "Select",
+            onKeyCenter: () => console.log("clicked on search")
+          });
+        } else if (element.getAttribute("record") && index > 3) {
           element.scrollIntoView(false);
           scroll(0, pageYOffset + 40);
         } else if (index > 6) {
@@ -63,6 +70,8 @@ export const RecordsContainer = pure(
         }
 
         if (sortedContacts.length && index > 0) {
+          console.log(element);
+
           setSoftkey({
             ...softkey,
             onKeyCenter: () => {
@@ -83,7 +92,12 @@ export const RecordsContainer = pure(
         ...softkey,
         left: recordTel ? (isShowOptions ? "Cancel" : "Back") : "",
         right: recordTel ? (index === 0 || isShowOptions ? "" : "Options") : "",
-        center: recordTel ? (isShowOptions ? "Save" : "Play") : "Select",
+        center:
+          recordTel && index !== 0
+            ? isShowOptions
+              ? "Save"
+              : "Play"
+            : "Select",
         onKeyRight: showOptions,
         onKeyLeft: getBack
       });
@@ -108,59 +122,71 @@ export const RecordsContainer = pure(
       getBack();
     };
 
-    return recordTel ? (
-      isShowOptions ? (
-        <div className={styles.options}>
-          <Options
-            onDelete={onDeleteClick}
-            record={sortedRecords[index - 1]}
-            setSoftkey={setSoftkey}
-            softkey={softkey}
-            current={current}
-            onUpdateTitle={onUpdateTitle}
-          />
-        </div>
-      ) : (
-        <Records sortedRecords={sortedRecords} contact={contact} />
-      )
-    ) : (
-      <div className={styles.wrapper}>
-        {sortedContacts.length ? (
-          sortedContacts.map(record => {
-            if (displayedRecords.find(rec => rec.tel === record.tel))
-              return null;
-            const allRecords = sortedContacts.filter(
-              rec => rec.tel === record.tel
-            );
-            const fromNow = moment(allRecords[0].date).fromNow();
-            displayedRecords.push(record);
-
-            return (
-              <div
-                className={styles.itemWrapper}
-                nav-selectable="true"
-                key={record.id}
-                onClick={() => setRecordTel(record.tel)}
-                contact="true"
-              >
-                <div className={styles.top}>
-                  <p className={styles.name}>{record.name}</p>
-                  <p className={styles.col}>{allRecords.length}</p>
-                </div>
-                <div className={styles.bottom}>
-                  <p className={styles.tel}>{record.tel}</p>
-                  <p className={styles.fromNow}>{fromNow}</p>
-                </div>
-              </div>
-            );
-          })
+    return (
+      <React.Fragment>
+        <Search
+          placeholder={`Search ${status}`}
+          selectable={!isShowOptions}
+          setSoftkey={setSoftkey}
+          softkey={softkey}
+          forSearch={recordTel ? records : displayedRecords}
+          searchBy={recordTel ? "title" : "name"}
+        />
+        {recordTel ? (
+          isShowOptions ? (
+            <div className={styles.options}>
+              <Options
+                onDelete={onDeleteClick}
+                record={sortedRecords[index - 1]}
+                setSoftkey={setSoftkey}
+                softkey={softkey}
+                current={current}
+                onUpdateTitle={onUpdateTitle}
+              />
+            </div>
+          ) : (
+            <Records sortedRecords={sortedRecords} contact={contact} />
+          )
         ) : (
-          <p className={styles.noRecordsText}>
-            Seems you didn’t record any calls, go to “contacts” and start
-            conversation
-          </p>
+          <div className={styles.wrapper}>
+            {sortedContacts.length ? (
+              sortedContacts.map(record => {
+                if (displayedRecords.find(rec => rec.tel === record.tel))
+                  return null;
+                const allRecords = sortedContacts.filter(
+                  rec => rec.tel === record.tel
+                );
+                const fromNow = moment(allRecords[0].date).fromNow();
+                displayedRecords.push(record);
+
+                return (
+                  <div
+                    className={styles.itemWrapper}
+                    nav-selectable="true"
+                    key={record.id}
+                    onClick={() => setRecordTel(record.tel)}
+                    contact="true"
+                  >
+                    <div className={styles.top}>
+                      <p className={styles.name}>{record.name}</p>
+                      <p className={styles.col}>{allRecords.length}</p>
+                    </div>
+                    <div className={styles.bottom}>
+                      <p className={styles.tel}>{record.tel}</p>
+                      <p className={styles.fromNow}>{fromNow}</p>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <p className={styles.noRecordsText}>
+                Seems you didn’t record any calls, go to “contacts” and start
+                conversation
+              </p>
+            )}
+          </div>
         )}
-      </div>
+      </React.Fragment>
     );
   }
 );

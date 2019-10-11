@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   RecordsContainer,
-  Search,
   Softkey,
   CallReceive,
   WelcomePage
@@ -47,10 +46,10 @@ const App = () => {
         };
       };
     } else {
-      // setCallInfo({
-      //   callerName: "Ruslan Zinchenko",
-      //   callerNumber: "+380997184978"
-      // });
+      setCallInfo({
+        callerName: "Pavel Kucher",
+        callerNumber: "+380997184978"
+      });
     }
   }, [telephonyCall]);
 
@@ -68,7 +67,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    // db.records.toArray(data => setRecords(data));
+    db.records.toArray(data => setRecords(data));
 
     if (!navigator.mediaDevices) {
       navigator.mediaDevices = {};
@@ -101,10 +100,6 @@ const App = () => {
         <div>
           {records.length ? (
             <React.Fragment>
-              <Search
-                placeholder={`Search ${status}`}
-                selectable={!isShowOptions}
-              />
               <RecordsContainer
                 setSoftkey={setSoftkey}
                 softkey={softkey}

@@ -29,3 +29,9 @@ input::placeholder {
   font-size: 12px;
   color: #bf360c;
 }
+
+.clear {
+  height: 18px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
