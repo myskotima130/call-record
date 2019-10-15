@@ -46,10 +46,10 @@ const App = () => {
         };
       };
     } else {
-      setCallInfo({
-        callerName: "Pavel Kucher",
-        callerNumber: "+380997184978"
-      });
+      // setCallInfo({
+      //   callerName: "Pavel Kucher",
+      //   callerNumber: "+380997184978"
+      // });
     }
   }, [telephonyCall]);
 

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SearchIcon from "../../SVG/SearchIcon/SearchIcon";
+import classnames from "classnames";
 import Clear from "../../SVG/Clear/Clear";
 import styles from "./Search.css";
 
@@ -9,31 +10,46 @@ export const Search = ({
   setSoftkey,
   softkey,
   forSearch,
-  searchBy
+  searchBy,
+  setSearchResult
 }) => {
   const [inputValue, setInputValue] = useState("");
+  const [inputStyles, setInputStyles] = useState(styles.input);
+  const focusRef = useRef();
 
   useEffect(() => {
     if (inputValue) {
       setSoftkey({
         ...softkey,
-        center: "Remove",
+        center: "Clear",
         onKeyCenter: () => setInputValue("")
       });
 
       const filteredElems = forSearch.filter(elem =>
-        elem[searchBy].search(inputValue) !== -1 ? elem : null
+        elem[searchBy].match(new RegExp(inputValue, "gi"))
       );
 
-      console.log(filteredElems);
+      setSearchResult(filteredElems);
+    } else {
+      setSearchResult(forSearch);
     }
   }, [inputValue]);
 
+  useEffect(() => {
+    focusRef.current.onfocus = () => {
+      setInputStyles(classnames(styles.input, styles.focus));
+    };
+    focusRef.current.onblur = () => {
+      setInputStyles(classnames(styles.input));
+    };
+  }, [focusRef]);
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.input}>
-        <SearchIcon />
+      <div className={inputStyles}>
+        {!inputValue && <SearchIcon />}
         <input
+          ref={focusRef}
           nav-selectable={selectable ? "true" : null}
           type="text"
           search="true"

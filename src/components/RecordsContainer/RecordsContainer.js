@@ -22,10 +22,18 @@ export const RecordsContainer = pure(
     const [recordTel, setRecordTel] = useState(null);
     const [contact, setContact] = useState(null);
     const [records, setRecords] = useState([]);
+    const [searchResult, setSearchResult] = useState([]);
+    const [staticRecords, setStaticRecords] = useState([]);
 
     const displayedRecords = [];
     const sortedContacts = contacts.sort((a, b) => (a.date > b.date ? -1 : 1));
     const sortedRecords = records.sort((a, b) => (a.date > b.date ? -1 : 1));
+
+    const allContacts = searchResult || sortedContacts;
+
+    useEffect(() => {
+      setStaticRecords(sortedContacts);
+    }, []);
 
     useEffect(() => {
       if (recordTel) {
@@ -36,6 +44,7 @@ export const RecordsContainer = pure(
       }
       setIndex(0);
       scroll(0, 0);
+      setSearchResult(null);
     }, [recordTel]);
 
     const showOptions = () => setIsShowOptions(!isShowOptions);
@@ -45,6 +54,7 @@ export const RecordsContainer = pure(
         setRecordTel(null);
       }
       setIsShowOptions(false);
+      setIndex(0);
     };
 
     useEffect(() => {
@@ -70,8 +80,6 @@ export const RecordsContainer = pure(
         }
 
         if (sortedContacts.length && index > 0) {
-          console.log(element);
-
           setSoftkey({
             ...softkey,
             onKeyCenter: () => {
@@ -129,8 +137,9 @@ export const RecordsContainer = pure(
           selectable={!isShowOptions}
           setSoftkey={setSoftkey}
           softkey={softkey}
-          forSearch={recordTel ? records : displayedRecords}
+          forSearch={recordTel ? records : staticRecords}
           searchBy={recordTel ? "title" : "name"}
+          setSearchResult={setSearchResult}
         />
         {recordTel ? (
           isShowOptions ? (
@@ -145,18 +154,23 @@ export const RecordsContainer = pure(
               />
             </div>
           ) : (
-            <Records sortedRecords={sortedRecords} contact={contact} />
+            <Records
+              sortedRecords={searchResult || sortedRecords}
+              contact={contact}
+            />
           )
         ) : (
           <div className={styles.wrapper}>
-            {sortedContacts.length ? (
-              sortedContacts.map(record => {
+            {allContacts.length ? (
+              allContacts.map(record => {
                 if (displayedRecords.find(rec => rec.tel === record.tel))
                   return null;
-                const allRecords = sortedContacts.filter(
+                const allRecords = allContacts.filter(
                   rec => rec.tel === record.tel
                 );
-                const fromNow = moment(allRecords[0].date).fromNow();
+                const fromNow = moment(allRecords[0].date)
+                  .fromNow()
+                  .replace("minutes" || "minute", "min.");
                 displayedRecords.push(record);
 
                 return (

@@ -119,6 +119,6 @@ const items = [
   }
 ];
 
-db.records.bulkAdd(items);
+// db.records.bulkAdd(items);
 
 export default db;
