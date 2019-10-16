@@ -70,7 +70,7 @@ export const RecordsContainer = pure(
           setSoftkey({
             ...softkey,
             center: "Select",
-            onKeyCenter: () => console.log("clicked on search")
+            onKeyCenter: () => element.focus()
           });
         } else if (element.getAttribute("record") && index > 3) {
           element.scrollIntoView(false);
@@ -160,7 +160,7 @@ export const RecordsContainer = pure(
             />
           )
         ) : (
-          <div className={styles.wrapper}>
+          <div>
             {allContacts.length ? (
               allContacts.map(record => {
                 if (displayedRecords.find(rec => rec.tel === record.tel))

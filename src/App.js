@@ -46,10 +46,10 @@ const App = () => {
         };
       };
     } else {
-      // setCallInfo({
-      //   callerName: "Pavel Kucher",
-      //   callerNumber: "+380997184978"
-      // });
+      setCallInfo({
+        callerName: "Anastasia Berger",
+        callerNumber: "+380997856378"
+      });
     }
   }, [telephonyCall]);
 

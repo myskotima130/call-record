@@ -32,6 +32,7 @@ export const Search = ({
       setSearchResult(filteredElems);
     } else {
       setSearchResult(forSearch);
+      focusRef.current.focus();
     }
   }, [inputValue]);
 
@@ -47,7 +48,11 @@ export const Search = ({
   return (
     <div className={styles.wrapper}>
       <div className={inputStyles}>
-        {!inputValue && <SearchIcon />}
+        {!inputValue && (
+          <div className={styles.icon}>
+            <SearchIcon />
+          </div>
+        )}
         <input
           ref={focusRef}
           nav-selectable={selectable ? "true" : null}
@@ -58,7 +63,7 @@ export const Search = ({
           value={inputValue}
         ></input>
         {inputValue && (
-          <div onClick={() => setInputValue("")} className={styles.clear}>
+          <div className={styles.clear}>
             <Clear />
           </div>
         )}

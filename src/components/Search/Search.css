@@ -3,6 +3,13 @@
   padding: 9px 9px 6px 9px;
 }
 
+.icon {
+  margin: 0 -2px 0 5px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
 .input {
   display: flex;
   align-items: center;

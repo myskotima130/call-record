@@ -21,7 +21,7 @@ export const CallReceive = ({
   };
 
   const [isShownPrompt, setIsShownPrompt] = useState(false);
-  const [title, setTitle] = useState("Record");
+  const [title, setTitle] = useState(`Record ${moment().format("D/MMM")}`);
   const [record, setRecord] = useState("Record");
 
   const onStopClick = () => {
@@ -91,8 +91,8 @@ export const CallReceive = ({
         left=""
         center={isShownPrompt ? "Save" : "Start recording"}
         onKeyCenter={isShownPrompt ? onSave : onCall}
-        right=""
-        // onKeyRight={onKeyRight}
+        right={isShownPrompt && "Clear"}
+        onKeyRight={() => setTitle("")}
       />
     </div>
   );

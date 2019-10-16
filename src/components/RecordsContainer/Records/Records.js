@@ -9,7 +9,7 @@ const Records = ({ sortedRecords, contact }) => {
     0
   );
 
-  return sortedRecords.length > 0 ? (
+  return (
     <React.Fragment>
       <div className={styles.itemWrapper}>
         <div className={styles.top}>
@@ -27,7 +27,7 @@ const Records = ({ sortedRecords, contact }) => {
         ))}
       </div>
     </React.Fragment>
-  ) : null;
+  );
 };
 
 export default Records;

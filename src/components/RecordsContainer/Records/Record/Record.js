@@ -59,8 +59,8 @@ const Record = ({ record }) => {
         progressRef.current.value = 100;
         timeRef.current.value = `${convertMS(record.duration)}`;
         setButton({
-          type: "play",
-          component: <Play />,
+          type: "passive",
+          component: <PlayPassive />,
           value: 0
         });
       }
@@ -73,7 +73,11 @@ const Record = ({ record }) => {
       <div className={styles.content}>
         <div className={styles.header}>
           <h2 className={styles.title}>{record.title}</h2>
-          <h3 className={styles.fromNow}>{moment(record.date).fromNow()}</h3>
+          <h3 className={styles.fromNow}>
+            {moment(record.date)
+              .fromNow()
+              .replace("minutes" || "minute", "min.")}
+          </h3>
         </div>
         <audio ref={audioRef} src={URL.createObjectURL(record.blob)}></audio>
         <progress
