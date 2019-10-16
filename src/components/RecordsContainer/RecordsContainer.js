@@ -72,7 +72,7 @@ export const RecordsContainer = pure(
             center: "Select",
             onKeyCenter: () => element.focus()
           });
-        } else if (element.getAttribute("record") && index > 3) {
+        } else if (element.getAttribute("record") && index > 4) {
           element.scrollIntoView(false);
           scroll(0, pageYOffset + 40);
         } else if (index > 6) {

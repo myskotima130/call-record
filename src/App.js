@@ -46,10 +46,10 @@ const App = () => {
         };
       };
     } else {
-      setCallInfo({
-        callerName: "Anastasia Berger",
-        callerNumber: "+380997856378"
-      });
+      // setCallInfo({
+      //   callerName: "Anastasia Berger",
+      //   callerNumber: "+380997856378"
+      // });
     }
   }, [telephonyCall]);
 

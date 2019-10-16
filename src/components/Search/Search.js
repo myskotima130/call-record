@@ -33,6 +33,11 @@ export const Search = ({
     } else {
       setSearchResult(forSearch);
       focusRef.current.focus();
+      setSoftkey({
+        ...softkey,
+        center: "Select",
+        onKeyCenter: () => focusRef.current.focus()
+      });
     }
   }, [inputValue]);
 
