@@ -25,12 +25,76 @@ function convertDataURIToBinary(dataURI) {
 const binary = convertDataURIToBinary(data);
 const blob = new Blob([binary], { type: "audio/ogg" });
 
+db.records.add({
+  id: 1236326,
+  blob,
+  title: "sada",
+  name: "Ness Mali",
+  tel: "0980452323",
+  date: new Date(),
+  duration: 914
+});
+db.records.add({
+  id: 654345,
+  blob,
+  title: "sada",
+  name: "Ness Mali",
+  tel: "0980452323",
+  date: new Date(),
+  duration: 914
+});
+db.records.add({
+  id: 234422235,
+  blob,
+  title: "sada",
+  name: "Ness Mali",
+  tel: "0980452323",
+  date: new Date(),
+  duration: 914
+});
+db.records.add({
+  id: 2334443,
+  blob,
+  title: "sada",
+  name: "Ness Mali",
+  tel: "0980452323",
+  date: new Date(),
+  duration: 914
+});
+
 // db.records.add({
-//   id: 1,
+//   id: 1422,
 //   blob,
-//   title: "sada",
-//   name: " test name",
-//   tel: "contact.tel",
+//   title: "sadau8",
+//   name: " test name11",
+//   tel: "contact.tel11",
+//   date: new Date(),
+//   duration: 914
+// });
+// db.records.add({
+//   id: 12324,
+//   blob,
+//   title: "sadahh",
+//   name: " test name222",
+//   tel: "contact.tel222",
+//   date: new Date(),
+//   duration: 914
+// });
+// db.records.add({
+//   id: 14342,
+//   blob,
+//   title: "sadab",
+//   name: " test name33",
+//   tel: "contact.tel333",
+//   date: new Date(),
+//   duration: 914
+// });
+// db.records.add({
+//   id: 1420333,
+//   blob,
+//   title: "sadab",
+//   name: " test name33",
+//   tel: "contact.tel333",
 //   date: new Date(),
 //   duration: 914
 // });

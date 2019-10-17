@@ -13,6 +13,10 @@
   padding-left: 6px;
 }
 
+.input[nav-selected="true"] {
+  border: solid 1px #bf360c;
+}
+
 .text {
   font-size: 12px;
   font-weight: 500;
@@ -26,6 +30,6 @@
   position: absolute;
   height: 18px;
   right: 5px;
-  bottom: 21px;
+  top: 42px;
   margin-right: 7px;
 }

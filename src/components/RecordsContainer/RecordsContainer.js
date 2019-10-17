@@ -67,16 +67,15 @@ export const RecordsContainer = pure(
         setIndex(index);
 
         if (element.getAttribute("search")) {
+          scroll(0,0);
           setSoftkey({
             ...softkey,
             center: "Select",
             onKeyCenter: () => element.focus()
           });
-        } else if (element.getAttribute("record") && index > 4) {
+        } else if (element.getAttribute("record") && index > 3 || index > 5) {
           element.scrollIntoView(false);
           scroll(0, pageYOffset + 40);
-        } else if (index > 6) {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
         }
 
         if (sortedContacts.length && index > 0) {

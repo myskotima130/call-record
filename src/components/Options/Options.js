@@ -31,7 +31,7 @@ export const Options = ({
   useEffect(() => {
     setSoftkey({
       ...softkey,
-      center: "Save",
+      center: "Update",
       onKeyCenter: updateTitle
     });
   }, [title]);
@@ -41,8 +41,9 @@ export const Options = ({
     if (element) {
       let options = {};
       if (element.tagName === "INPUT") {
+        // element.focus();
         options = {
-          center: "Save",
+          center: "Update",
           onKeyCenter: updateTitle
         };
       } else if (element.getAttribute("delete")) {

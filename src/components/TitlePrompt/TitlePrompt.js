@@ -1,21 +1,28 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import Clear from "../../SVG/Clear/Clear";
 import styles from "./TitlePrompt.css";
 
 export const TitlePrompt = ({ text, setTitle, value }) => {
+  const focusRef = useRef();
+
+  useEffect(() => {
+    console.log("focus effect", focusRef);
+    
+    focusRef.current.focus();
+  }, [focusRef]);
+
+
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.text}>{text}</h2>
       <div>
         <input
+          ref={focusRef}
+          nav-selectable="true"
+          type="text" option="true"
           className={styles.input}
-          type="text"
           onChange={e => setTitle(e.currentTarget.value)}
           value={value}
-          nav-selectable="true"
-          option="true"
-          autoFocus
-          onBlur={e => e.currentTarget.focus()}
         ></input>
         {value && (
           <div className={styles.clear}>

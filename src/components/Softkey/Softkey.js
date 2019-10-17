@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./Softkey.css";
 
 export const Softkey = ({
@@ -9,36 +9,49 @@ export const Softkey = ({
   right,
   onKeyRight
 }) => {
+  const refLeft = useRef();
+  const refCenter = useRef();
+  const refRight = useRef();
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+
+    // return () => document.removeEventListener("keydown", handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleKeyDown = evt => {
     switch (evt.key) {
-      case "SoftLeft":
-        return onKeyLeft && onKeyLeft(evt);
-      case "Enter":
-        return onKeyCenter && onKeyCenter(evt);
-      case "SoftRight":
-      case "ArrowRight":
-        return onKeyRight && onKeyRight(evt);
+
+      case "SoftLeft": {
+        console.log("SoftLevt inside");
+        refLeft.current.click();
+        break;
+      }
+        
+      case "Enter": {
+        refCenter.current.click();
+        break;
+      }
+        
+      case "SoftRight":{
+        refRight.current.click();
+        break;
+      }
       default:
         return;
     }
   };
 
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => document.removeEventListener("keydown", handleKeyDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <div className={styles.wrapper}>
-      <label onClick={onKeyLeft} className={styles.left}>
+      <label ref={refLeft} onClick={onKeyLeft} className={styles.left}>
         {left}
       </label>
-      <label onClick={onKeyCenter} className={styles.center}>
+      <label ref={refCenter} onClick={onKeyCenter} className={styles.center}>
         {center}
       </label>
-      <label onClick={onKeyRight} className={styles.right}>
+      <label ref={refRight} onClick={onKeyRight} className={styles.right}>
         {right}
       </label>
     </div>
