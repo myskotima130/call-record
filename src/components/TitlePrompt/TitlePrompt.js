@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from "react";
 import Clear from "../../SVG/Clear/Clear";
 import styles from "./TitlePrompt.css";
 
-export const TitlePrompt = ({ text, setTitle, value }) => {
+export const TitlePrompt = ({ text, setTitle, value, isSelected }) => {
   const focusRef = useRef();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export const TitlePrompt = ({ text, setTitle, value }) => {
           onChange={e => setTitle(e.currentTarget.value)}
           value={value}
         ></input>
-        {value && (
+        { value && (
           <div className={styles.clear}>
             <Clear />
           </div>

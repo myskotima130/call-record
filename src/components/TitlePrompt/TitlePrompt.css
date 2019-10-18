@@ -17,6 +17,10 @@
   border: solid 1px #bf360c;
 }
 
+.input[nav-selected="true"] + .clear {
+  visibility: visible;
+}
+
 .text {
   font-size: 12px;
   font-weight: 500;
@@ -27,6 +31,7 @@
 }
 
 .clear {
+  visibility: hidden;
   position: absolute;
   height: 18px;
   right: 5px;
