@@ -17,7 +17,7 @@ export const RecordsContainer = pure(
     setIsShowOptions,
     isShowOptions
   }) => {
-    const [current] = useNavigation();
+    const [current, setCurrent] = useNavigation();
     const [index, setIndex] = useState(0);
     const [recordTel, setRecordTel] = useState(null);
     const [contact, setContact] = useState(null);
@@ -43,6 +43,7 @@ export const RecordsContainer = pure(
           .toArray(data => setRecords(data));
       }
       setIndex(0);
+      setCurrent(0);
       scroll(0, 0);
       setSearchResult(null);
     }, [recordTel]);
@@ -150,6 +151,7 @@ export const RecordsContainer = pure(
                 softkey={softkey}
                 current={current}
                 onUpdateTitle={onUpdateTitle}
+                setCurrent={setCurrent}
               />
             </div>
           ) : (

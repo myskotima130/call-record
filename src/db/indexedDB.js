@@ -26,38 +26,38 @@ const binary = convertDataURIToBinary(data);
 const blob = new Blob([binary], { type: "audio/ogg" });
 
 db.records.add({
-  id: 1236326,
+  id: 231,
   blob,
-  title: "sada",
-  name: "Ness Mali",
-  tel: "0980452323",
+  title: "sadaaa",
+  name: "user32",
+  tel: "0980436345456",
   date: new Date(),
   duration: 914
 });
 db.records.add({
-  id: 654345,
+  id: 2354324,
   blob,
-  title: "sada",
-  name: "Ness Mali",
-  tel: "0980452323",
+  title: "sadaa44a",
+  name: "user 2",
+  tel: "0980445523",
   date: new Date(),
   duration: 914
 });
 db.records.add({
-  id: 234422235,
+  id: 7656547,
   blob,
-  title: "sada",
-  name: "Ness Mali",
-  tel: "0980452323",
+  title: "sadaa554",
+  name: "Oleg Green",
+  tel: "098045654533",
   date: new Date(),
   duration: 914
 });
 db.records.add({
-  id: 2334443,
+  id: 5436343,
   blob,
   title: "sada",
-  name: "Ness Mali",
-  tel: "0980452323",
+  name: "user 33",
+  tel: "09804534523",
   date: new Date(),
   duration: 914
 });

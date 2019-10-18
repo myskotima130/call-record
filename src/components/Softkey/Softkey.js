@@ -24,7 +24,6 @@ export const Softkey = ({
     switch (evt.key) {
 
       case "SoftLeft": {
-        console.log("SoftLevt inside");
         refLeft.current.click();
         break;
       }

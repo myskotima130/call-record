@@ -10,7 +10,8 @@ export const Options = ({
   setSoftkey,
   softkey,
   current,
-  onUpdateTitle
+  onUpdateTitle,
+  setCurrent
 }) => {
   const [currentRecord] = useState(record);
   const [title, setTitle] = useState(currentRecord.title);
@@ -29,6 +30,10 @@ export const Options = ({
   }, [isShownConfirm]);
 
   useEffect(() => {
+    setCurrent(0);
+  }, []);
+
+  useEffect(() => {
     setSoftkey({
       ...softkey,
       center: "Update",
@@ -44,17 +49,23 @@ export const Options = ({
         // element.focus();
         options = {
           center: "Update",
-          onKeyCenter: updateTitle
+          onKeyCenter: updateTitle,
+          right: "Clear",
+          onKeyRight: () => setTitle("")
         };
       } else if (element.getAttribute("delete")) {
         options = {
           center: "Delete",
-          onKeyCenter: () => element.click()
+          onKeyCenter: () => element.click(),
+          right: "",
+          onKeyRight: undefined
         };
       } else if (element.getAttribute("save")) {
         options = {
           center: "Save",
-          onKeyCenter: () => element.click()
+          onKeyCenter: () => element.click(),
+          right: "",
+          onKeyRight: undefined
         };
       }
 
