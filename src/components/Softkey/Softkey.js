@@ -22,18 +22,17 @@ export const Softkey = ({
 
   const handleKeyDown = evt => {
     switch (evt.key) {
-
       case "SoftLeft": {
         refLeft.current.click();
         break;
       }
-        
+
       case "Enter": {
         refCenter.current.click();
         break;
       }
-        
-      case "SoftRight":{
+
+      case "SoftRight": {
         refRight.current.click();
         break;
       }

@@ -47,7 +47,7 @@ const App = () => {
       };
     } else {
       // setCallInfo({
-      //   callerName: "Anastasia Berger",
+      //   callerName: "Anastasia Malikova",
       //   callerNumber: "+380997856378"
       // });
     }

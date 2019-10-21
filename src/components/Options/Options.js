@@ -46,7 +46,6 @@ export const Options = ({
     if (element) {
       let options = {};
       if (element.tagName === "INPUT") {
-        // element.focus();
         options = {
           center: "Update",
           onKeyCenter: updateTitle,
@@ -91,16 +90,16 @@ export const Options = ({
           >
             Delete record
           </h3>
-          <h3 className={styles.item}>
-            <a
-              href={URL.createObjectURL(currentRecord.blob)}
-              download={title}
-              nav-selectable="true"
-              save="true"
-            >
-              Save to device
-            </a>
-          </h3>
+          <div className={styles.bottomLine} />
+          <a
+            className={styles.item}
+            href={URL.createObjectURL(currentRecord.blob)}
+            download={title}
+            nav-selectable="true"
+            save="true"
+          >
+            Save to device
+          </a>
         </div>
       )}
     </React.Fragment>
