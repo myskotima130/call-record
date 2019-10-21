@@ -68,13 +68,13 @@ export const RecordsContainer = pure(
         setIndex(index);
 
         if (element.getAttribute("search")) {
-          scroll(0,0);
+          scroll(0, 0);
           setSoftkey({
             ...softkey,
             center: "Select",
             onKeyCenter: () => element.focus()
           });
-        } else if (element.getAttribute("record") && index > 3 || index > 5) {
+        } else if ((element.getAttribute("record") && index > 3) || index > 5) {
           element.scrollIntoView(false);
           scroll(0, pageYOffset + 40);
         }
@@ -133,7 +133,7 @@ export const RecordsContainer = pure(
     return (
       <React.Fragment>
         <Search
-          placeholder={`Search ${status}`}
+          placeholder={`Search ${recordTel ? "records" : "contact"}`}
           selectable={!isShowOptions}
           setSoftkey={setSoftkey}
           softkey={softkey}

@@ -3,9 +3,11 @@
   width: 100%;
   position: absolute;
   bottom: 0;
+  background: #ffffff;
 }
 
 .item {
+  display: block;
   padding: 13px 10px;
   margin: 0;
   text-align: left;
@@ -17,10 +19,16 @@
 
 a {
   text-decoration: none;
-  color: #1e1d20;
 }
 
 .item[nav-selected="true"],
 a[nav-selected="true"] {
   color: #bf360c;
+  background: #f7f7f7;
+}
+
+.bottomLine {
+  height: 1px;
+  background-color: #ebedf0;
+  margin: 0 10px;
 }

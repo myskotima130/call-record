@@ -1,11 +1,12 @@
 .itemWrapper {
-  height: 40px;
+  height: 38px;
   border-radius: 6px;
   background-color: #ffffff;
   margin-bottom: 5px;
   padding: 5px 10px;
   display: flex;
   align-items: center;
+  border: solid 1px #ffffff;
 }
 
 .itemWrapper[nav-selected="true"] {
@@ -50,6 +51,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  padding-top: 2px;
 }
 
 .timeWrapper {
@@ -73,6 +75,8 @@
   height: 2px;
   border-radius: 1px;
   background-color: #ebedf0;
+  border: none;
+  margin-top: -2px;
 }
 
 progress[value]::-moz-progress-bar {
