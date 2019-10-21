@@ -28,7 +28,6 @@
 }
 
 .title {
-  width: 100%;
   max-width: 108px;
   padding: 6px 0 2px 0;
   margin-left: 40px;
@@ -43,7 +42,7 @@
 }
 
 .fromNow {
-  max-width: 50px;
+  max-width: 60px;
   font-size: 10px;
   font-weight: 500;
   text-align: right;

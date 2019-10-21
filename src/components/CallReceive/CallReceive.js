@@ -6,28 +6,23 @@ import { TitlePrompt, Softkey } from "../../components";
 import uuid from "uuid/v4";
 import styles from "./CallReceive.css";
 
-export const CallReceive = ({
-  callInfo,
-  mediaRecorder,
-  addRecord
-  // setSoftkey
-}) => {
+export const CallReceive = ({ callInfo, mediaRecorder, addRecord }) => {
+  const [isShownPrompt, setIsShownPrompt] = useState(false);
+  const [title, setTitle] = useState(`Record ${moment().format("D/MMM")}`);
+  const [record, setRecord] = useState("Record");
+  const [callButton, setCallButton] = useState("Start recording");
+
   let chunks = [];
   let startRecord;
   const onCall = () => {
     mediaRecorder.start();
     startRecord = moment();
-    console.log("recorder started");
+    setCallButton("Stop recording");
   };
 
-  const [isShownPrompt, setIsShownPrompt] = useState(false);
-  const [title, setTitle] = useState(`Record ${moment().format("D/MMM")}`);
-  const [record, setRecord] = useState("Record");
-
-  const onStopClick = () => {
+  const onStop = () => {
     mediaRecorder.stop();
     setIsShownPrompt(true);
-    console.log("recorder stopped");
 
     if (mediaRecorder) {
       mediaRecorder.onstop = () => {
@@ -81,16 +76,20 @@ export const CallReceive = ({
             <p>You are talking with</p>
             <p>{callInfo.callerName}</p>
           </div>
-          <div onClick={onStopClick}>
-            <PlayBig />
-          </div>
+          <PlayBig />
           <div className={styles.bottomLine} />
         </React.Fragment>
       )}
       <Softkey
         left=""
-        center={isShownPrompt ? "Save" : "Start recording"}
-        onKeyCenter={isShownPrompt ? onSave : onCall}
+        center={isShownPrompt ? "Save" : callButton}
+        onKeyCenter={
+          isShownPrompt
+            ? onSave
+            : callButton === "Start recording"
+            ? onCall
+            : onStop
+        }
         right={isShownPrompt && "Clear"}
         onKeyRight={() => setTitle("")}
       />
