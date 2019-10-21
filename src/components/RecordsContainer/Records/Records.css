@@ -18,7 +18,12 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: -6px;
+  margin-bottom: -5px;
+  align-items: center;
+}
+
+.top {
+  margin-top: -2px;
 }
 
 .name {
