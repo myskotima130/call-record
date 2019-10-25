@@ -13,19 +13,19 @@
   },
   "type": "certified",
   "permissions": {
-	"audio-capture": {
-    "description": "Required to capture audio using getUserMedia()"
+    "audio-capture": {
+      "description": "Required to capture audio using getUserMedia()"
+    },
+    "telephony": {
+        "description": "Required to control telephony functions"
+      },
+    "device-storage:apps":{
+      "access": "readwrite"
+    },
+    "device-storage:sdcard":{
+      "access": "readwrite"
+    }  
   },
-"telephony": {
-    "description": "Required to control telephony functions"
-  },
-"device-storage:apps":{
-	"access": "readwrite"
- },
-"device-storage:sdcard":{
-	"access": "readwrite"
- }  
-},
   "installs_allowed_from": [
     "*"
   ],
