@@ -76,7 +76,7 @@ const Record = ({ record }) => {
           <h3 className={styles.fromNow}>
             {moment(record.date)
               .fromNow()
-              .replace("minutes" || "minute", "min.")}
+              .replace(/min[a-z]+/gi, "min.")}
           </h3>
         </div>
         <audio ref={audioRef} src={URL.createObjectURL(record.blob)}></audio>
