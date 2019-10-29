@@ -26,7 +26,7 @@ const binary = convertDataURIToBinary(data);
 const blob = new Blob([binary], { type: "audio/ogg" });
 
 db.records.add({
-  id: 363455433,
+  id: 312433,
   blob,
   title: "sa3467",
   name: "test",
@@ -35,7 +35,7 @@ db.records.add({
   duration: 914
 });
 db.records.add({
-  id: 7365245,
+  id: 73652345,
   blob,
   title: "sads8456s",
   name: "testtttt",
@@ -44,7 +44,7 @@ db.records.add({
   duration: 914
 });
 db.records.add({
-  id: 96234546,
+  id: 94523546,
   blob,
   title: "sa43357s",
   name: "test",
@@ -53,7 +53,7 @@ db.records.add({
   duration: 914
 });
 db.records.add({
-  id: 441235673,
+  id: 4546235673,
   blob,
   title: "sa1214s",
   name: "testggg",

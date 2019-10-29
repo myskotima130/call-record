@@ -17,7 +17,7 @@ export const Options = ({
   const [title, setTitle] = useState(currentRecord.title);
   const [isShownConfirm, setIsShownConfirm] = useState(false);
 
-  const updateTitle = () => onUpdateTitle(currentRecord.id, title);
+  const updateTitle = () => title && onUpdateTitle(currentRecord.id, title);
 
   useEffect(() => {
     if (isShownConfirm) {
