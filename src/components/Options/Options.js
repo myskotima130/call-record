@@ -34,20 +34,12 @@ export const Options = ({
   }, []);
 
   useEffect(() => {
-    setSoftkey({
-      ...softkey,
-      center: "Update",
-      onKeyCenter: updateTitle
-    });
-  }, [title]);
-
-  useEffect(() => {
     const element = document.querySelector("[nav-selected=true]");
     if (element) {
       let options = {};
       if (element.tagName === "INPUT") {
         options = {
-          center: "Update",
+          center: title ? "Update" : "",
           onKeyCenter: updateTitle,
           right: "Clear",
           onKeyRight: () => setTitle("")
