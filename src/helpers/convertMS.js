@@ -7,11 +7,13 @@ export const convertMS = milliseconds => {
   minutes %= 60;
   hours %= 24;
 
-  seconds = seconds < 10 && seconds > 0 ? `0${seconds}` : seconds;
-  minutes = minutes < 10 && minutes > 0 ? `0${minutes}` : minutes;
-  hours = hours < 10 && hours > 0 ? `0${hours}` : hours;
+  seconds = convertToTwoDigit(seconds)
+  minutes = convertToTwoDigit(minutes)
+  hours = convertToTwoDigit(hours)
 
   return `${hours ? `${hours}:` : ""}${minutes ? `${minutes}:` : "00:"}${
     seconds ? seconds : "00"
   }`;
 };
+
+const convertToTwoDigit = time => time < 10 && time > 0 ? `0${time}` : time;
