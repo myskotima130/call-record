@@ -10,13 +10,13 @@ export const CallReceive = ({ callInfo, mediaRecorder, addRecord }) => {
   const [isShownPrompt, setIsShownPrompt] = useState(false);
   const [title, setTitle] = useState(`Record ${moment().format("D/MMM")}`);
   const [record, setRecord] = useState("Record");
+  const [startRecord, setStartRecord] = useState(null);
   const [callButton, setCallButton] = useState("Start recording");
 
   let chunks = [];
-  let startRecord;
   const onCall = () => {
     mediaRecorder.start();
-    startRecord = moment();
+    setStartRecord(moment());
     setCallButton("Stop recording");
   };
 
@@ -27,9 +27,6 @@ export const CallReceive = ({ callInfo, mediaRecorder, addRecord }) => {
     if (mediaRecorder) {
       mediaRecorder.onstop = () => {
         const duration = moment().diff(startRecord, "milliseconds");
-
-        console.log(duration);
-        
         const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
         chunks = [];
 
