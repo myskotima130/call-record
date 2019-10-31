@@ -28,6 +28,8 @@ export const CallReceive = ({ callInfo, mediaRecorder, addRecord }) => {
       mediaRecorder.onstop = () => {
         const duration = moment().diff(startRecord, "milliseconds");
 
+        console.log(duration);
+        
         const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
         chunks = [];
 

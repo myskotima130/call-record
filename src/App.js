@@ -45,11 +45,6 @@ const App = () => {
           });
         };
       };
-    } else {
-      // setCallInfo({
-      //   callerName: "Anastasia Malikova",
-      //   callerNumber: "+380997856378"
-      // });
     }
   }, [telephonyCall]);
 
@@ -65,6 +60,13 @@ const App = () => {
     db.records.delete(id);
     setRecords([...records.filter(record => record.id !== id)]);
   };
+
+  useEffect(() => {
+    setCallInfo({
+      callerName: "Anastasia Malikova",
+      callerNumber: "+380997856378"
+    });
+  },[])
 
   useEffect(() => {
     db.records.toArray(data => setRecords(data));
