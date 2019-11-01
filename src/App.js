@@ -63,10 +63,10 @@ const App = () => {
 
   useEffect(() => {
     setCallInfo({
-      callerName: "Anastasia Malikova",
-      callerNumber: "+380997856378"
+      callerName: "Andrew Zmurin",
+      callerNumber: "+380997857495"
     });
-  },[])
+  }, []);
 
   useEffect(() => {
     db.records.toArray(data => setRecords(data));

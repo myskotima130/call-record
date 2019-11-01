@@ -16,7 +16,7 @@ export const Softkey = ({
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
 
-    // return () => document.removeEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
