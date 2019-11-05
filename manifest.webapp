@@ -2,6 +2,7 @@
   "version": "1.0.0",
   "name": "Call Record App",
   "description": "This app was created for recording calls",
+  "subtitle": "With this app you could record and store your calls",
   "launch_path": "/index.html",
   "icons": {
     "56": "/img/TapeRec56x56.png",
@@ -14,14 +15,13 @@
   "type": "certified",
   "installs_allowed_from": [
     "https://marketplace.KaiOs.com?????????????????"
-  ]
+  ],
   "categories": [
     "utilities"
   ],
   "orientation": [ 
     "landscape-primary" 
   ],
-  "fullscreen": "true",
   "permissions": {
     "audio-capture": {
       "description": "Required to capture audio using getUserMedia()"
@@ -39,15 +39,10 @@
     }  
   },
   "locales": {
-    "en-US": {
-      "name": "Call Record App",
-      "subtitle": "With this app you could record and store your calls",
-      "description": "The app was created for recording and storing calls",
-    },
     "ru-RU": {
       "name": "Call Record App",
       "subtitle": "С данным приложением вы можете записывать и хранить звонки",
-      "description": "Приложение создано для записи и хранения звонков",
+      "description": "Приложение создано для записи и хранения звонков"
     }
   },
   "default_locale": "en-US"
