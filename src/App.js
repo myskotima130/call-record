@@ -61,12 +61,12 @@ const App = () => {
     setRecords([...records.filter(record => record.id !== id)]);
   };
 
-  useEffect(() => {
-    setCallInfo({
-      callerName: "Andrew Zmurin",
-      callerNumber: "+380997857495"
-    });
-  }, []);
+  // useEffect(() => {
+  //   setCallInfo({
+  //     callerName: "Andrew Zmurin",
+  //     callerNumber: "+380997857495"
+  //   });
+  // }, []);
 
   useEffect(() => {
     db.records.toArray(data => setRecords(data));

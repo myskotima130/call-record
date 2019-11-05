@@ -1,40 +1,54 @@
 ﻿{
-  "version": "0.1.0",
-  "name": "call record app",
-  "description": "A template with the bare minimum structure",
+  "version": "1.0.0",
+  "name": "Call Record App",
+  "description": "This app was created for recording calls",
   "launch_path": "/index.html",
   "icons": {
     "56": "/img/TapeRec56x56.png",
     "112": "/img/TapeRec112x112.png"
   },
   "developer": {
-    "name": "Your name",
-    "url": "http://example.com"
+    "name": "DataArt",
+    "url": "https://www.dataart.com/"
   },
   "type": "certified",
+  "installs_allowed_from": [
+    "https://marketplace.KaiOs.com?????????????????"
+  ]
+  "categories": [
+    "utilities"
+  ],
+  "orientation": [ 
+    "landscape-primary" 
+  ],
+  "fullscreen": "true",
   "permissions": {
     "audio-capture": {
       "description": "Required to capture audio using getUserMedia()"
     },
     "telephony": {
-        "description": "Required to control telephony functions"
-      },
+      "description": "Required to control telephony functions"
+    },
     "device-storage:apps":{
+      "description": "Required to control apps storage",
       "access": "readwrite"
     },
     "device-storage:sdcard":{
+      "description": "Required to control sdcard storage",
       "access": "readwrite"
     }  
   },
-  "installs_allowed_from": [
-    "*"
-  ],
   "locales": {
-    "es": {
-      "name": "Aplicación vacía privilegiada",
-      "description": "Una plantilla con la mínima estructura",
-      "permissions": {}
+    "en-US": {
+      "name": "Call Record App",
+      "subtitle": "With this app you could record and store your calls",
+      "description": "The app was created for recording and storing calls",
+    },
+    "ru-RU": {
+      "name": "Call Record App",
+      "subtitle": "С данным приложением вы можете записывать и хранить звонки",
+      "description": "Приложение создано для записи и хранения звонков",
     }
   },
-  "default_locale": "en"
+  "default_locale": "en-US"
 }

@@ -47,8 +47,8 @@ db.records.add({
   id: 94523546,
   blob,
   title: "sa43357s",
-  name: "test",
-  tel: "380934823",
+  name: "test3",
+  tel: "380984623",
   date: new Date(),
   duration: 914
 });
@@ -61,128 +61,5 @@ db.records.add({
   date: new Date(),
   duration: 914
 });
-
-// db.records.add({
-//   id: 1422,
-//   blob,
-//   title: "sadau8",
-//   name: " test name11",
-//   tel: "contact.tel11",
-//   date: new Date(),
-//   duration: 914
-// });
-// db.records.add({
-//   id: 12324,
-//   blob,
-//   title: "sadahh",
-//   name: " test name222",
-//   tel: "contact.tel222",
-//   date: new Date(),
-//   duration: 914
-// });
-// db.records.add({
-//   id: 14342,
-//   blob,
-//   title: "sadab",
-//   name: " test name33",
-//   tel: "contact.tel333",
-//   date: new Date(),
-//   duration: 914
-// });
-// db.records.add({
-//   id: 1420333,
-//   blob,
-//   title: "sadab",
-//   name: " test name33",
-//   tel: "contact.tel333",
-//   date: new Date(),
-//   duration: 914
-// });
-
-const items = [
-  {
-    id: 161,
-    blob,
-    title: "sada",
-    name: "test ss",
-    tel: "contact.telccc",
-    date: new Date(),
-    duration: 914
-  },
-  {
-    id: 1,
-    blob,
-    title: "sada",
-    name: " test name",
-    tel: "contact.tel",
-    date: new Date(),
-    duration: 914
-  },
-  // {
-  //   id: 12,
-  //   blob,
-  //   title: "sadasss",
-  //   name: " test name",
-  //   tel: "contact.tel",
-  //   date: new Date(),
-  //   duration: 914
-  // },
-  {
-    id: 13,
-    blob,
-    title: "sadaxzczc",
-    name: " test name2",
-    tel: "contact.tel2",
-    date: new Date(),
-    duration: 914
-  },
-  {
-    id: 14,
-    blob,
-    title: "sadasdsad",
-    name: " test namessss",
-    tel: "contact.telasdasd",
-    date: new Date(),
-    duration: 914
-  },
-  // {
-  //   id: 15,
-  //   blob,
-  //   title: "sadaddd",
-  //   name: " test name",
-  //   tel: "contact.tel",
-  //   date: new Date(),
-  //   duration: 914
-  // },
-  // {
-  //   id: 16,
-  //   blob,
-  //   title: "sada",
-  //   name: " test name",
-  //   tel: "contact.tel",
-  //   date: new Date(),
-  //   duration: 914
-  // },
-  {
-    id: 162,
-    blob,
-    title: "sada",
-    name: " test dadaada",
-    tel: "contact.telssss",
-    date: new Date(),
-    duration: 914
-  },
-  {
-    id: 163,
-    blob,
-    title: "sada",
-    name: " test nameeeeeee",
-    tel: "contact.teleeeeee",
-    date: new Date(),
-    duration: 914
-  }
-];
-
-// db.records.bulkAdd(items);
 
 export default db;
