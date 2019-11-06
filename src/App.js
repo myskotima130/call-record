@@ -12,7 +12,7 @@ const App = () => {
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [isShowOptions, setIsShowOptions] = useState(false);
   const [records, setRecords] = useState([]);
-  const [telephonyCall] = useState(navigator.mozTelephony);
+  const [Telephony] = useState(navigator.mozTelephony);
   const [callInfo, setCallInfo] = useState({
     callerNumber: "",
     callerName: ""
@@ -24,8 +24,12 @@ const App = () => {
   });
 
   useEffect(() => {
-    if (telephonyCall) {
-      telephonyCall.onincoming = e => {
+    if (Telephony) {
+      console.log("all connected calls", Telephony.calls);
+
+      Telephony.onincoming = e => {
+        console.log("onincoming");
+
         const requestName = navigator.mozContacts.find({
           filterBy: ["tel"],
           filterValue: e.call.id
@@ -46,7 +50,7 @@ const App = () => {
         };
       };
     }
-  }, [telephonyCall]);
+  }, [Telephony]);
 
   const addRecord = record => {
     setRecords([...records, record]);
@@ -61,12 +65,12 @@ const App = () => {
     setRecords([...records.filter(record => record.id !== id)]);
   };
 
-  // useEffect(() => {
-  //   setCallInfo({
-  //     callerName: "Andrew Zmurin",
-  //     callerNumber: "+380997857495"
-  //   });
-  // }, []);
+  useEffect(() => {
+    setCallInfo({
+      callerName: "Andrew Zmurin",
+      callerNumber: "+380997857495"
+    });
+  }, []);
 
   useEffect(() => {
     db.records.toArray(data => setRecords(data));
@@ -94,6 +98,7 @@ const App = () => {
       {callInfo.callerNumber ? (
         <CallReceive
           callInfo={callInfo}
+          Telephony={Telephony}
           mediaRecorder={mediaRecorder}
           addRecord={addRecord}
           setSoftkey={setSoftkey}

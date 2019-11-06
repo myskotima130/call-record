@@ -6,7 +6,12 @@ import { TitlePrompt, Softkey } from "../../components";
 import uuid from "uuid/v4";
 import styles from "./CallReceive.css";
 
-export const CallReceive = ({ callInfo, mediaRecorder, addRecord }) => {
+export const CallReceive = ({
+  callInfo,
+  mediaRecorder,
+  addRecord,
+  Telephony
+}) => {
   const [isShownPrompt, setIsShownPrompt] = useState(false);
   const [title, setTitle] = useState(`Record ${moment().format("D/MMM")}`);
   const [record, setRecord] = useState("Record");
@@ -16,6 +21,7 @@ export const CallReceive = ({ callInfo, mediaRecorder, addRecord }) => {
   let chunks = [];
   const onCall = () => {
     mediaRecorder.start();
+    Telephony.dial(callInfo.callerNumber);
     setStartRecord(moment());
     setCallButton("Stop recording");
   };
