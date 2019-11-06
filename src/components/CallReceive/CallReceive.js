@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import db from "../../db/indexedDB";
 import PlayBig from "../../SVG/PlayBig/PlayBig";
@@ -18,31 +18,36 @@ export const CallReceive = ({
   const [startRecord, setStartRecord] = useState(null);
   const [callButton, setCallButton] = useState("Start recording");
 
+  const [call, setCall] = useState(null);
+
   let chunks = [];
   const onCall = () => {
-    // mediaRecorder.start();
-    // Telephony.dial(callInfo.callerNumber).then(call => console.log("1", call));
-
-    // const tel = navigator.mozTelephony;
-    // tel.dial(callInfo.callerNumber).then(call => console.log("2", call));
-
-    // eslint-disable-next-line no-undef
-    const call = new MozActivity({
-      name: "dial",
-      data: {
-        number: callInfo.callerNumber
-      }
-    });
+    setCall(
+      // eslint-disable-next-line no-undef
+      new MozActivity({
+        name: "dial",
+        data: {
+          number: callInfo.callerNumber
+        }
+      })
+    );
 
     call.onsuccess = function() {
       console.log("onsuccess call", this.result);
     };
 
-    console.log("call", call);
-
     setStartRecord(moment());
     setCallButton("Stop recording");
+
+    // while (call.readyState !== "done") {}
+    // onStop();
   };
+
+  useEffect(() => {
+    if (call.readyState === "done") {
+      onStop();
+    }
+  }, [call]);
 
   const onStop = () => {
     mediaRecorder.stop();
