@@ -36,9 +36,12 @@ export const CallReceive = ({
 
     tel.oncallschanged = e => {
       console.log("oncallschanged", e.call);
-      if(e.call.state === "disconnected") {
-        onStop();
-      }
+      e.call.onstatechange = event => {
+        console.log(event);
+        if (event.state === "disconnected") {
+          onStop();
+        }
+      };
     };
 
     setStartRecord(moment());
