@@ -66,7 +66,7 @@ const App = () => {
   useEffect(() => {
     setCallInfo({
       callerName: "Andrew Zmurin",
-      callerNumber: "+380997857495"
+      callerNumber: "+74732334425"
     });
   }, []);
 
