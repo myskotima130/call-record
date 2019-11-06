@@ -34,25 +34,11 @@ export const CallReceive = ({
 
     const tel = navigator.mozTelephony;
 
-    // Receive a call
-    tel.onincoming = e => {
-      console.log("onincoming", e.call);
-      const call = e.call;
-      call.onstatechange = e => {
-        if (e.state === "disconnected" || e.call.state === "disconnected") {
-          onStop();
-        }
-      };
-    };
-
     tel.oncallschanged = e => {
       console.log("oncallschanged", e.call);
-      const call = e.call;
-      call.onstatechange = e => {
-        if (e.state === "disconnected" || e.call.state === "disconnected") {
-          onStop();
-        }
-      };
+      if(e.call.state === "disconnected") {
+        onStop();
+      }
     };
 
     setStartRecord(moment());
