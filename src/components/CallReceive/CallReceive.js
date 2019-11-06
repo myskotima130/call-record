@@ -20,8 +20,26 @@ export const CallReceive = ({
 
   let chunks = [];
   const onCall = () => {
-    mediaRecorder.start();
-    Telephony.dial(callInfo.callerNumber);
+    // mediaRecorder.start();
+    // Telephony.dial(callInfo.callerNumber).then(call => console.log("1", call));
+
+    // const tel = navigator.mozTelephony;
+    // tel.dial(callInfo.callerNumber).then(call => console.log("2", call));
+
+    // eslint-disable-next-line no-undef
+    const call = new MozActivity({
+      name: "dial",
+      data: {
+        number: callInfo.callerNumber
+      }
+    });
+
+    call.onsuccess = function() {
+      console.log("onsuccess call", this.result);
+    };
+
+    console.log("call", call);
+
     setStartRecord(moment());
     setCallButton("Stop recording");
   };
