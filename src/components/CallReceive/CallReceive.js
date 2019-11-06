@@ -20,6 +20,9 @@ export const CallReceive = ({
 
   let chunks = [];
   const onCall = () => {
+    mediaRecorder.start();
+    setStartRecord(moment());
+    setCallButton("Stop recording");
     // eslint-disable-next-line no-undef
     const call = new MozActivity({
       name: "dial",
@@ -31,10 +34,6 @@ export const CallReceive = ({
     call.onsuccess = function() {
       console.log("onsuccess call", this.result);
     };
-
-    mediaRecorder.start();
-    setStartRecord(moment());
-    setCallButton("Stop recording");
 
     const tel = navigator.mozTelephony;
 
