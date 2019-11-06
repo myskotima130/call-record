@@ -32,20 +32,18 @@ export const CallReceive = ({
       console.log("onsuccess call", this.result);
     };
 
+    mediaRecorder.start();
+    setStartRecord(moment());
+    setCallButton("Stop recording");
+
     const tel = navigator.mozTelephony;
 
     tel.oncallschanged = e => {
       console.log("oncallschanged", e.call);
-      e.call.onstatechange = event => {
-        console.log(event);
-        if (event.state === "disconnected") {
-          onStop();
-        }
-      };
+      if (e.call.state === "disconnected") {
+        onStop();
+      }
     };
-
-    setStartRecord(moment());
-    setCallButton("Stop recording");
   };
 
   const onStop = () => {
