@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import db from "../../db/indexedDB";
 import PlayBig from "../../SVG/PlayBig/PlayBig";
@@ -18,19 +18,15 @@ export const CallReceive = ({
   const [startRecord, setStartRecord] = useState(null);
   const [callButton, setCallButton] = useState("Start recording");
 
-  const [call, setCall] = useState(null);
-
   let chunks = [];
   const onCall = () => {
-    setCall(
-      // eslint-disable-next-line no-undef
-      new MozActivity({
-        name: "dial",
-        data: {
-          number: callInfo.callerNumber
-        }
-      })
-    );
+    // eslint-disable-next-line no-undef
+    const call = new MozActivity({
+      name: "dial",
+      data: {
+        number: callInfo.callerNumber
+      }
+    });
 
     call.onsuccess = function() {
       console.log("onsuccess call", this.result);
@@ -39,15 +35,9 @@ export const CallReceive = ({
     setStartRecord(moment());
     setCallButton("Stop recording");
 
-    // while (call.readyState !== "done") {}
-    // onStop();
+    while (call.readyState !== "done") {}
+    onStop();
   };
-
-  useEffect(() => {
-    if (call.readyState === "done") {
-      onStop();
-    }
-  }, [call]);
 
   const onStop = () => {
     mediaRecorder.stop();

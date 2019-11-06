@@ -25,8 +25,6 @@ const App = () => {
 
   useEffect(() => {
     if (Telephony) {
-      console.log("all connected calls", Telephony.calls);
-
       Telephony.onincoming = e => {
         console.log("onincoming");
 
