@@ -20,7 +20,7 @@
     "utilities"
   ],
   "orientation": [ 
-    "landscape-primary" 
+    "portrait-primary" 
   ],
   "permissions": {
     "audio-capture": {
@@ -36,7 +36,13 @@
     "device-storage:sdcard":{
       "description": "Required to control sdcard storage",
       "access": "readwrite"
-    }  
+    },
+    "audio-channel-telephony": {
+      "description": "Phone calls, VoIP calls"
+    },
+    "audio-channel-ringer": {
+      "description": "Incoming phone calls"
+    }
   },
   "locales": {
     "ru-RU": {
