@@ -40,6 +40,8 @@ export const CallReceive = ({
     tel.oncallschanged = e => {
       console.log("oncallschanged", e.call);
       if (e.call.state === "disconnected") {
+        console.log("disconnected");
+
         onStop();
       }
     };
