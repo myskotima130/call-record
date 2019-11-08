@@ -50,6 +50,17 @@ export const MainContainer = pure(
 
     useEffect(() => {
       setStaticRecords(sortedContacts);
+      setSoftkey({
+        ...softkey,
+        onArrowRight:
+          status === "records"
+            ? () => setStatus("contact")
+            : () => setStatus("records"),
+        onArrowLeft:
+          status === "records"
+            ? () => setStatus("contact")
+            : () => setStatus("records")
+      });
     }, []);
 
     useEffect(() => {

@@ -116,6 +116,8 @@ const App = () => {
             onKeyCenter={softkey.onKeyCenter}
             right={softkey.right}
             onKeyRight={softkey.onKeyRight}
+            onArrowRight={softkey.onArrowRight}
+            onArrowLeft={softkey.onArrowLeft}
           />
         </React.Fragment>
       ) : (
