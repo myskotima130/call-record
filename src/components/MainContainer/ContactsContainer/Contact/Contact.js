@@ -8,6 +8,7 @@ import styles from "./Contact.css";
 
 const Contact = ({
   setSoftkey,
+  softkey,
   setTitle,
   contact,
   mediaRecorder,
@@ -25,44 +26,48 @@ const Contact = ({
     startRecord = moment();
 
     setTimeout(() => {
-      setSoftkey({
-        center: "Save",
-        onKeyCenter: onSave,
-        right: "Clear",
-        onKeyRight: () => setTitle("")
-      });
       onStop();
-    }, 1000);
+    }, 2000);
 
-    // // eslint-disable-next-line no-undef
-    // const call = new MozActivity({
-    //   name: "dial",
-    //   data: {
-    //     number: contact.tel
-    //   }
-    // });
+    setSoftkey({
+      center: "Save",
+      onKeyCenter: onSave,
+      right: "Clear",
+      onKeyRight: () => setTitle("")
+    });
 
-    // call.onsuccess = function() {
-    //   console.log("onsuccess call", this.result);
-    // };
+    // eslint-disable-next-line no-undef
+    const call = new MozActivity({
+      name: "dial",
+      data: {
+        number: contact.tel
+      }
+    });
 
-    // const tel = navigator.mozTelephony;
+    call.onsuccess = function() {
+      console.log("onsuccess call", this.result);
+    };
 
-    // tel.oncallschanged = e => {
-    //   console.log("oncallschanged", e.call);
-    //   if (e.call.state === "disconnected") {
-    //     console.log("disconnected");
+    const tel = navigator.mozTelephony;
 
-    //     onStop();
-    //   }
-    // };
+    tel.oncallschanged = e => {
+      console.log("oncallschanged", e.call);
+      if (e.call.state === "disconnected") {
+        console.log("disconnected");
+
+        onStop();
+      }
+    };
   };
 
   const onStop = () => {
+    console.log("onStop function");
+
     mediaRecorder.stop();
     setIsShownPrompt(true);
 
     mediaRecorder.onstop = () => {
+      console.log("mediaRecorder onstop");
       const duration = moment().diff(startRecord, "milliseconds");
       const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
       chunks = [];

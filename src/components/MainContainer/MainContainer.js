@@ -29,6 +29,7 @@ export const MainContainer = pure(
     const [records, setRecords] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
     const [staticRecords, setStaticRecords] = useState([]);
+    const [isShownPrompt, setIsShownPrompt] = useState(false);
 
     const displayedRecords = [];
     const sortedContacts = contacts.sort((a, b) => (a.date > b.date ? -1 : 1));
@@ -36,7 +37,7 @@ export const MainContainer = pure(
 
     const allContacts = searchResult || sortedContacts;
 
-    const [status, setStatus] = useState("contact");
+    const [status, setStatus] = useState(null);
 
     const contactStyle = classnames(styles.item, {
       [styles.active]: status === "contact",
@@ -50,18 +51,35 @@ export const MainContainer = pure(
 
     useEffect(() => {
       setStaticRecords(sortedContacts);
+      setStatus("contact");
+    }, []);
+
+    useEffect(() => {
+      if (isShownPrompt) {
+      }
+    }, [isShownPrompt]);
+
+    useEffect(() => {
+      scroll(0, 0);
+      setIndex(0);
       setSoftkey({
         ...softkey,
-        onArrowRight:
-          status === "records"
-            ? () => setStatus("contact")
-            : () => setStatus("records"),
-        onArrowLeft:
-          status === "records"
-            ? () => setStatus("contact")
-            : () => setStatus("records")
+        onArrowRight: () => {
+          if (status === "records") {
+            setStatus("contact");
+          } else {
+            setStatus("records");
+          }
+        },
+        onArrowLeft: () => {
+          if (status === "records") {
+            setStatus("contact");
+          } else {
+            setStatus("records");
+          }
+        }
       });
-    }, []);
+    }, [status]);
 
     useEffect(() => {
       if (recordTel) {
@@ -102,8 +120,23 @@ export const MainContainer = pure(
           }
 
           setSoftkey({
+            ...softkey,
             center: "Call",
-            onKeyCenter: () => element.click()
+            onKeyCenter: () => element.click(),
+            onArrowRight: () => {
+              if (status === "records") {
+                setStatus("contact");
+              } else {
+                setStatus("records");
+              }
+            },
+            onArrowLeft: () => {
+              if (status === "records") {
+                setStatus("contact");
+              } else {
+                setStatus("records");
+              }
+            }
           });
           return;
         }
@@ -175,29 +208,36 @@ export const MainContainer = pure(
 
     return (
       <React.Fragment>
-        <Search
-          placeholder={`Search ${recordTel ? "records" : "contact"}`}
-          selectable={!isShowOptions}
-          setSoftkey={setSoftkey}
-          softkey={softkey}
-          forSearch={recordTel ? records : staticRecords}
-          searchBy={recordTel ? "title" : "name"}
-          setSearchResult={setSearchResult}
-        />
-        <div className={styles.menu}>
-          <p className={contactStyle} onClick={() => setStatus("contact")}>
-            Contacts
-          </p>
-          <p className={recordsStyle} onClick={() => setStatus("records")}>
-            Records
-          </p>
-        </div>
+        {!isShownPrompt && (
+          <React.Fragment>
+            <Search
+              placeholder={`Search ${recordTel ? "records" : "contact"}`}
+              selectable={!isShowOptions}
+              setSoftkey={setSoftkey}
+              softkey={softkey}
+              forSearch={recordTel ? records : staticRecords}
+              searchBy={recordTel ? "title" : "name"}
+              setSearchResult={setSearchResult}
+            />
+            <div className={styles.menu}>
+              <p className={contactStyle} onClick={() => setStatus("contact")}>
+                Contacts
+              </p>
+              <p className={recordsStyle} onClick={() => setStatus("records")}>
+                Records
+              </p>
+            </div>
+          </React.Fragment>
+        )}
         {status === "contact" ? (
           <ContactsContainer
             addRecord={addRecord}
             contacts={contactsFromPhone}
             mediaRecorder={mediaRecorder}
             setSoftkey={setSoftkey}
+            softkey={softkey}
+            isShownPrompt={isShownPrompt}
+            setIsShownPrompt={setIsShownPrompt}
           />
         ) : recordTel ? (
           isShowOptions ? (
@@ -210,6 +250,7 @@ export const MainContainer = pure(
                 current={current}
                 onUpdateTitle={onUpdateTitle}
                 setCurrent={setCurrent}
+                setStatus={setStatus}
               />
             </div>
           ) : (

@@ -8,10 +8,12 @@ const ContactsContainer = ({
   contacts,
   mediaRecorder,
   addRecord,
-  setSoftkey
+  setSoftkey,
+  softkey,
+  isShownPrompt,
+  setIsShownPrompt
 }) => {
   let currentChar;
-  const [isShownPrompt, setIsShownPrompt] = useState(false);
   const [title, setTitle] = useState(`Record ${moment().format("D/MMM")}`);
 
   return isShownPrompt ? (
@@ -35,6 +37,7 @@ const ContactsContainer = ({
             <Contact
               setTitle={setTitle}
               setSoftkey={setSoftkey}
+              softkey={softkey}
               title={title}
               isShownPrompt={isShownPrompt}
               setIsShownPrompt={setIsShownPrompt}

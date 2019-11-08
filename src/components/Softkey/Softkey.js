@@ -14,6 +14,8 @@ export const Softkey = ({
   const refLeft = useRef();
   const refCenter = useRef();
   const refRight = useRef();
+  const refArrowRigth = useRef();
+  const refArrowLeft = useRef();
 
   const handleKeyDown = evt => {
     switch (evt.key) {
@@ -24,6 +26,8 @@ export const Softkey = ({
 
       case "Enter": {
         refCenter.current.click();
+        console.log(refCenter);
+
         break;
       }
 
@@ -33,12 +37,12 @@ export const Softkey = ({
       }
 
       case "ArrowRight": {
-        console.log(onArrowRight);
+        refArrowRigth.current.click();
         break;
       }
 
       case "ArrowLeft": {
-        console.log(onArrowLeft);
+        refArrowLeft.current.click();
         break;
       }
 
@@ -65,6 +69,8 @@ export const Softkey = ({
       <label ref={refRight} onClick={onKeyRight} className={styles.right}>
         {right}
       </label>
+      <div ref={refArrowRigth} onClick={onArrowRight} />
+      <div ref={refArrowLeft} onClick={onArrowLeft} />
     </div>
   );
 };

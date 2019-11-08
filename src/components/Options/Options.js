@@ -11,9 +11,11 @@ export const Options = ({
   softkey,
   current,
   onUpdateTitle,
-  setCurrent
+  setCurrent,
+  setStatus
 }) => {
   const [currentRecord] = useState(record);
+  const [currentSoftkey] = useState(softkey);
   const [title, setTitle] = useState(currentRecord.title);
   const [isShownConfirm, setIsShownConfirm] = useState(false);
 
@@ -27,6 +29,11 @@ export const Options = ({
         onKeyCenter: () => onDelete(currentRecord.id)
       });
     }
+    return () => {
+      setSoftkey(currentSoftkey);
+      setStatus("records");
+      console.log("closed", currentSoftkey);
+    };
   }, [isShownConfirm]);
 
   useEffect(() => {
@@ -42,7 +49,9 @@ export const Options = ({
           center: title ? "Update" : "",
           onKeyCenter: updateTitle,
           right: "Clear",
-          onKeyRight: () => setTitle("")
+          onKeyRight: () => setTitle(""),
+          onArrowLeft: null,
+          onArrowRight: null
         };
       } else if (element.getAttribute("delete")) {
         options = {
