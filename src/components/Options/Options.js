@@ -30,8 +30,8 @@ export const Options = ({
       });
     }
     return () => {
+      setStatus("contacts");
       setSoftkey(currentSoftkey);
-      setStatus("records");
       console.log("closed", currentSoftkey);
     };
   }, [isShownConfirm]);
