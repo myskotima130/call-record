@@ -22,12 +22,9 @@ const Contact = ({
   let startRecord;
 
   const onCall = () => {
-    mediaRecorder.start();
-    startRecord = moment();
-
-    setTimeout(() => {
-      onStop();
-    }, 12000);
+    // setTimeout(() => {
+    //   onStop();
+    // }, 12000);
 
     // setSoftkey({
     //   center: "Save",
@@ -45,7 +42,8 @@ const Contact = ({
     });
 
     call.onsuccess = function() {
-      console.log("onsuccess call", this.result);
+      mediaRecorder.start();
+      startRecord = moment();
     };
 
     const tel = navigator.mozTelephony;
