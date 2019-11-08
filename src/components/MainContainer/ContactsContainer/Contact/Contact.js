@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import React from "react";
+import React, { useState } from "react";
 import uuid from "uuid/v4";
 import moment from "moment";
 import CallPassive from "../../../../SVG/CallPassive/CallPassive";
@@ -29,12 +29,12 @@ const Contact = ({
     //   onStop();
     // }, 2000);
 
-    setSoftkey({
-      center: "Save",
-      onKeyCenter: onSave,
-      right: "Clear",
-      onKeyRight: () => setTitle("")
-    });
+    // setSoftkey({
+    //   center: "Save",
+    //   onKeyCenter: onSave,
+    //   right: "Clear",
+    //   onKeyRight: () => setTitle("")
+    // });
 
     // eslint-disable-next-line no-undef
     const call = new MozActivity({
@@ -64,7 +64,7 @@ const Contact = ({
     console.log("onStop function");
 
     mediaRecorder.stop();
-    setIsShownPrompt(true);
+    // setIsShownPrompt(true);
 
     mediaRecorder.onstop = () => {
       console.log("mediaRecorder onstop");
@@ -82,6 +82,16 @@ const Contact = ({
         date: new Date(),
         duration: duration < 1000 ? 1000 : duration
       };
+
+      db.records.add({
+        ...record,
+        title
+      });
+
+      addRecord({
+        ...record,
+        title
+      });
     };
 
     mediaRecorder.ondataavailable = e => {
@@ -89,18 +99,11 @@ const Contact = ({
     };
   };
 
-  const onSave = () => {
-    db.records.add({
-      ...record,
-      title
-    });
+  // const onSave = () => {
+  //   console.log("save", testRecord);
 
-    addRecord({
-      ...record,
-      title
-    });
-    setIsShownPrompt(false);
-  };
+  //   // setIsShownPrompt(false);
+  // };
 
   return (
     <div
