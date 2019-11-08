@@ -25,9 +25,9 @@ const Contact = ({
     mediaRecorder.start();
     startRecord = moment();
 
-    // setTimeout(() => {
-    //   onStop();
-    // }, 2000);
+    setTimeout(() => {
+      onStop();
+    }, 12000);
 
     // setSoftkey({
     //   center: "Save",
