@@ -7,18 +7,13 @@ export const Softkey = ({
   center,
   onKeyCenter,
   right,
-  onKeyRight
+  onKeyRight,
+  onArrowRight,
+  onArrowLeft
 }) => {
   const refLeft = useRef();
   const refCenter = useRef();
   const refRight = useRef();
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => document.removeEventListener("keydown", handleKeyDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleKeyDown = evt => {
     switch (evt.key) {
@@ -36,10 +31,28 @@ export const Softkey = ({
         refRight.current.click();
         break;
       }
+
+      case "ArrowRight": {
+        console.log(onArrowRight);
+        break;
+      }
+
+      case "ArrowLeft": {
+        console.log(onArrowLeft);
+        break;
+      }
+
       default:
         return;
     }
   };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => document.removeEventListener("keydown", handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={styles.wrapper}>

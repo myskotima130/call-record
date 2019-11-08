@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  RecordsContainer,
-  Softkey,
-  CallReceive,
-  WelcomePage
-} from "./components";
+import { MainContainer, Softkey, WelcomePage } from "./components";
 import db from "./db/indexedDB";
 import styles from "./App.css";
 
@@ -12,51 +7,15 @@ const App = () => {
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [isShowOptions, setIsShowOptions] = useState(false);
   const [records, setRecords] = useState([]);
-  const [Telephony] = useState(navigator.mozTelephony);
-  const [callInfo, setCallInfo] = useState({
-    callerNumber: "",
-    callerName: ""
-  });
   const [softkey, setSoftkey] = useState({
     left: "",
     center: "",
     right: ""
   });
 
-  useEffect(() => {
-    if (Telephony) {
-      Telephony.onincoming = e => {
-        console.log("onincoming");
+  const [contactsFromPhone, setContactsFromPhone] = useState([]);
 
-        const requestName = navigator.mozContacts.find({
-          filterBy: ["tel"],
-          filterValue: e.call.id
-        });
-
-        requestName.onsuccess = function() {
-          setCallInfo({
-            callerName: this.result.name,
-            callerNumber: e.call.id
-          });
-        };
-
-        requestName.onerror = function() {
-          setCallInfo({
-            callerName: "Unknown",
-            callerNumber: e.call.id
-          });
-        };
-      };
-    }
-  }, [Telephony]);
-
-  const addRecord = record => {
-    setRecords([...records, record]);
-    setCallInfo({
-      callerName: "",
-      callerNumber: ""
-    });
-  };
+  const addRecord = record => setRecords([...records, record]);
 
   const onDelete = id => {
     db.records.delete(id);
@@ -64,14 +23,57 @@ const App = () => {
   };
 
   useEffect(() => {
-    setCallInfo({
-      callerName: "Andrew Zmurin",
-      callerNumber: "+74732334425"
-    });
-  }, []);
-
-  useEffect(() => {
     db.records.toArray(data => setRecords(data));
+
+    if (navigator.mozContacts) {
+      const requestContacts = navigator.mozContacts.getAll({ sortBy: name }); // filterValue: (tel number)
+      requestContacts.onsuccess = function() {
+        if (this.result) {
+          console.log("Name of Contact" + this.result.name);
+          console.log("Number of Contact" + this.result.tel[0].value);
+
+          setContactsFromPhone.push({
+            name: this.result.name,
+            tel: this.result.tel[0].value
+          });
+
+          this.continue();
+        } else {
+          setContactsFromPhone(contactsFromPhone);
+        }
+      };
+    } else {
+      setContactsFromPhone([
+        {
+          name: "Amie Meyer",
+          tel: "+74732334425"
+        },
+        {
+          name: "Azet Gray",
+          tel: "+74732334412"
+        },
+        {
+          name: "Berest Moss",
+          tel: "+74732334635"
+        },
+        {
+          name: "Bob Smit",
+          tel: "+74732334079"
+        },
+        {
+          name: "Boniface Esanji",
+          tel: "+74732334490"
+        },
+        {
+          name: "Evelin Allen",
+          tel: "+74732334212"
+        },
+        {
+          name: "Roman Kutepov",
+          tel: "+74736834212"
+        }
+      ]);
+    }
 
     if (!navigator.mediaDevices) {
       navigator.mediaDevices = {};
@@ -93,39 +95,31 @@ const App = () => {
 
   return (
     <div className={styles.wrapper}>
-      {callInfo.callerNumber ? (
-        <CallReceive
-          callInfo={callInfo}
-          Telephony={Telephony}
-          mediaRecorder={mediaRecorder}
-          addRecord={addRecord}
-          setSoftkey={setSoftkey}
-        />
+      {records.length ? (
+        <React.Fragment>
+          <MainContainer
+            contactsFromPhone={contactsFromPhone}
+            mediaRecorder={mediaRecorder}
+            addRecord={addRecord}
+            status={status}
+            setSoftkey={setSoftkey}
+            softkey={softkey}
+            contacts={records}
+            onDelete={onDelete}
+            isShowOptions={isShowOptions}
+            setIsShowOptions={setIsShowOptions}
+          />
+          <Softkey
+            left={softkey.left}
+            onKeyLeft={softkey.onKeyLeft}
+            center={softkey.center}
+            onKeyCenter={softkey.onKeyCenter}
+            right={softkey.right}
+            onKeyRight={softkey.onKeyRight}
+          />
+        </React.Fragment>
       ) : (
-        <div>
-          {records.length ? (
-            <React.Fragment>
-              <RecordsContainer
-                setSoftkey={setSoftkey}
-                softkey={softkey}
-                contacts={records}
-                onDelete={onDelete}
-                isShowOptions={isShowOptions}
-                setIsShowOptions={setIsShowOptions}
-              />
-              <Softkey
-                left={softkey.left}
-                onKeyLeft={softkey.onKeyLeft}
-                center={softkey.center}
-                onKeyCenter={softkey.onKeyCenter}
-                right={softkey.right}
-                onKeyRight={softkey.onKeyRight}
-              />
-            </React.Fragment>
-          ) : (
-            <WelcomePage />
-          )}
-        </div>
+        <WelcomePage />
       )}
     </div>
   );

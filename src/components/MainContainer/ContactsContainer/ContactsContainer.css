@@ -1,0 +1,16 @@
+.char {
+  padding: 3px 10px 5px 10px;
+  max-height: 24px;
+  background-color: #ebedf0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e1d20;
+  text-align: left;
+}
+
+.prompt {
+  width: 100%;
+  position: absolute;
+  bottom: 26px;
+  left: 0;
+}

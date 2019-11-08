@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import classnames from "classnames";
 import { pure } from "recompose";
 import moment from "moment";
 import { Options } from "../Options/Options";
@@ -6,10 +7,14 @@ import { Search } from "../Search/Search";
 import { useNavigation } from "../../hooks";
 import db from "../../db/indexedDB";
 import Records from "./Records/Records";
-import styles from "./RecordsContainer.css";
+import ContactsContainer from "./ContactsContainer/ContactsContainer";
+import styles from "./MainContainer.css";
 
-export const RecordsContainer = pure(
+export const MainContainer = pure(
   ({
+    contactsFromPhone,
+    mediaRecorder,
+    addRecord,
     contacts,
     onDelete,
     softkey,
@@ -30,6 +35,18 @@ export const RecordsContainer = pure(
     const sortedRecords = records.sort((a, b) => (a.date > b.date ? -1 : 1));
 
     const allContacts = searchResult || sortedContacts;
+
+    const [status, setStatus] = useState("contact");
+
+    const contactStyle = classnames(styles.item, {
+      [styles.active]: status === "contact",
+      [styles.passive]: status !== "contact"
+    });
+
+    const recordsStyle = classnames(styles.item, {
+      [styles.active]: status === "records",
+      [styles.passive]: status !== "records"
+    });
 
     useEffect(() => {
       setStaticRecords(sortedContacts);
@@ -67,6 +84,19 @@ export const RecordsContainer = pure(
 
         setIndex(index);
 
+        if (element.getAttribute("contactcall")) {
+          if (index > 3) {
+            element.scrollIntoView(false);
+            scroll(0, pageYOffset + 40);
+          }
+
+          setSoftkey({
+            center: "Call",
+            onKeyCenter: () => element.click()
+          });
+          return;
+        }
+
         if (element.getAttribute("search")) {
           scroll(0, 0);
           setSoftkey({
@@ -101,7 +131,9 @@ export const RecordsContainer = pure(
         left: recordTel ? (isShowOptions ? "Cancel" : "Back") : "",
         right: recordTel ? (index === 0 || isShowOptions ? "" : "Options") : "",
         center:
-          recordTel && index !== 0
+          status === "contact" && index !== 0
+            ? "Call"
+            : recordTel && index !== 0
             ? isShowOptions
               ? "Save"
               : "Play"
@@ -141,7 +173,22 @@ export const RecordsContainer = pure(
           searchBy={recordTel ? "title" : "name"}
           setSearchResult={setSearchResult}
         />
-        {recordTel ? (
+        <div className={styles.menu}>
+          <p className={contactStyle} onClick={() => setStatus("contact")}>
+            Contacts
+          </p>
+          <p className={recordsStyle} onClick={() => setStatus("records")}>
+            Records
+          </p>
+        </div>
+        {status === "contact" ? (
+          <ContactsContainer
+            addRecord={addRecord}
+            contacts={contactsFromPhone}
+            mediaRecorder={mediaRecorder}
+            setSoftkey={setSoftkey}
+          />
+        ) : recordTel ? (
           isShowOptions ? (
             <div className={styles.options}>
               <Options

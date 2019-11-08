@@ -42,6 +42,7 @@ export const CallReceive = ({
       if (e.call.state === "disconnected") {
         console.log("disconnected");
 
+        // eslint-disable-next-line
         onStop();
       }
     };

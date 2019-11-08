@@ -1,0 +1,44 @@
+.wrapper {
+  position: relative;
+  padding: 2px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 35px;
+  border-bottom: 1px solid #ebedf0;
+}
+
+.name {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: #1e1d20;
+  margin-bottom: -5px;
+  text-align: left;
+}
+
+.tel {
+  font-size: 12px;
+  letter-spacing: 0;
+  color: #797e83;
+}
+
+.call {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background-color: #95c555;
+}
+
+.wrapper[nav-selected="true"] {
+  background: #f7f7f7;
+}
+
+.wrapper[nav-selected="true"] > div > .name {
+  color: #d84315;
+}
+
+.wrapper[nav-selected="true"] > div > .tel {
+  font-weight: 500;
+  color: #1e1d20;
+}
