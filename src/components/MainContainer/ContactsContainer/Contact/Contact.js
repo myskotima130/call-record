@@ -83,25 +83,13 @@ const Contact = ({
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
       recorder = new MediaRecorder(stream);
 
+      console.log("Start recording");
+      recorder.start();
+      startRecord = moment();
+
       recorder.addEventListener("dataavailable", e => {
         console.log("addEventListener finished record", e.data);
         chunks.push(e.data);
-      });
-
-      recorder.ondataavailable = e => {
-        console.log("finished record", e.data);
-        chunks.push(e.data);
-      };
-    });
-
-    tel.oncallschanged = e => {
-      console.log("oncallschanged", recorder);
-      if (e.call.state === "disconnected") {
-        console.log("disconnected", recorder);
-        console.log(recorder.clone);
-
-        recorder.stop();
-        // setIsShownPrompt(true);
 
         const duration = moment().diff(startRecord, "milliseconds");
         const blob = new Blob(chunks, { type: "audio/wav; codecs=opus" });
@@ -133,10 +121,22 @@ const Contact = ({
         console.log("saved to storage");
 
         console.log("recorder stopped", recorder);
+      });
+
+      recorder.ondataavailable = e => {
+        console.log("finished record", e.data);
+        chunks.push(e.data);
+      };
+    });
+
+    tel.oncallschanged = e => {
+      console.log("oncallschanged", recorder);
+      if (e.call.state === "disconnected") {
+        console.log("disconnected", recorder);
+
+        recorder.stop();
+        // setIsShownPrompt(true);
       } else {
-        console.log("Start recording");
-        recorder.start();
-        startRecord = moment();
       }
     };
   };
