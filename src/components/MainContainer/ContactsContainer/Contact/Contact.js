@@ -51,16 +51,21 @@ const Contact = ({
 
     const tel = navigator.mozTelephony;
 
-    tel.dial(contact.tel).then(function(call) {
-      console.log("dial from mozTelephony");
+    // tel.dial(contact.tel).then(function(call) {
+    //   console.log("dial from mozTelephony");
 
-      call.onconnected = () => {
-        console.log("mediaRecorder start from mozTelephony");
-        mediaRecorder.start();
-        startRecord = moment();
-        console.log("mRecorder started", mediaRecorder);
-      };
-    });
+    //   call.onconnected = () => {
+    //     console.log("mediaRecorder start from mozTelephony");
+    //     mediaRecorder.start();
+    //     startRecord = moment();
+    //     console.log("mRecorder started", mediaRecorder);
+    //   };
+    // });
+
+    mediaRecorder.start();
+    startRecord = moment();
+
+    console.log("mediaRecorder started");
 
     tel.oncallschanged = e => {
       console.log("oncallschanged", e.call);
@@ -125,7 +130,7 @@ const Contact = ({
       nav-selectable="true"
       contactcall="true"
       onClick={onCall}
-      // href={`tel:${contact.tel}`}
+      href={`tel:${contact.tel}`}
     >
       <div>
         <p className={styles.name}>{contact.name}</p>
