@@ -62,10 +62,21 @@ const Contact = ({
     //   };
     // });
 
-    mediaRecorder.start();
+    mediaRecorder.start(100);
     startRecord = moment();
 
     console.log("mediaRecorder started");
+
+    mediaRecorder.onerror = e => console.log(e);
+
+    mediaRecorder.onpause = () => {
+      console.log("mediaRecorder paused");
+      mediaRecorder.resume();
+      console.log("mediaRecorder resumed");
+    };
+
+    mediaRecorder.onstop = () =>
+      console.log("mediaRecorder before disconnected");
 
     tel.oncallschanged = e => {
       console.log("oncallschanged", e.call);
