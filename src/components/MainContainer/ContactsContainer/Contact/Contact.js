@@ -82,7 +82,7 @@ const Contact = ({
 
         console.log("recorder stopped", recorder);
       } else {
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+        navigator.mediaDevices.mozGetUserMedia({ audio: true }).then(stream => {
           recorder = new MediaRecorder(stream);
 
           console.log("Start recording");
