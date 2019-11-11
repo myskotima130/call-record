@@ -43,9 +43,13 @@ export const Options = ({
   useEffect(() => {
     const element = document.querySelector("[nav-selected=true]");
     if (element) {
-      let options = {};
+      let options = {
+        onArrowRight: null,
+        onArrowLeft: null
+      };
       if (element.tagName === "INPUT") {
         options = {
+          ...options,
           center: title ? "Update" : "",
           onKeyCenter: updateTitle,
           right: "Clear",
@@ -55,6 +59,7 @@ export const Options = ({
         };
       } else if (element.getAttribute("delete")) {
         options = {
+          ...options,
           center: "Delete",
           onKeyCenter: () => element.click(),
           right: "",
@@ -62,6 +67,7 @@ export const Options = ({
         };
       } else if (element.getAttribute("save")) {
         options = {
+          ...options,
           center: "Save",
           onKeyCenter: () => element.click(),
           right: "",

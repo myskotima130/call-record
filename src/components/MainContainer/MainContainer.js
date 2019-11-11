@@ -136,9 +136,21 @@ export const MainContainer = pure(
               } else {
                 setStatus("records");
               }
-            }
+            },
+            onKeyLeft: null,
+            onKeyRight: null,
+            left: "",
+            right: ""
           });
           return;
+        }
+
+        if (element.getAttribute("record")) {
+          setSoftkey({
+            ...softkey,
+            onArrowRight: null,
+            onArrowLeft: null
+          });
         }
 
         if (element.getAttribute("search")) {

@@ -26,8 +26,6 @@ export const Softkey = ({
 
       case "Enter": {
         refCenter.current.click();
-        console.log(refCenter);
-
         break;
       }
 

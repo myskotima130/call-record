@@ -33,33 +33,34 @@ const Contact = ({
     //   onKeyRight: () => setTitle("")
     // });
 
-    console.log("start mozActivity");
+    // console.log("start mozActivity");
 
     // eslint-disable-next-line no-undef
-    const call = new MozActivity({
-      name: "dial",
-      data: {
-        number: contact.tel
-      }
-    });
+    // const call = new MozActivity({
+    //   name: "dial",
+    //   data: {
+    //     number: contact.tel
+    //   }
+    // });
 
-    call.onsuccess = function() {
-      console.log("mediaRecorder start", mediaRecorder);
-      mediaRecorder.start();
-      startRecord = moment();
-    };
+    // call.onsuccess = function() {
+    //   console.log("mediaRecorder start", mediaRecorder);
+    //   mediaRecorder.start();
+    //   startRecord = moment();
+    // };
 
     const tel = navigator.mozTelephony;
 
-    // tel.dial(contact.tel).then(function(call) {
-    //   console.log("dial from mozTelephony");
+    tel.dial(contact.tel).then(function(call) {
+      console.log("dial from mozTelephony");
 
-    //   call.onconnected = () => {
-    //     console.log("mediaRecorder start from mozTelephony");
-    //     mediaRecorder.start();
-    //     startRecord = moment();
-    //   };
-    // });
+      call.onconnected = () => {
+        console.log("mediaRecorder start from mozTelephony");
+        mediaRecorder.start();
+        startRecord = moment();
+        console.log("mRecorder started", mediaRecorder);
+      };
+    });
 
     tel.oncallschanged = e => {
       console.log("oncallschanged", e.call);
