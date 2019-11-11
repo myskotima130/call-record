@@ -70,7 +70,7 @@ const Contact = ({
     //   console.log("mediaRecorder before disconnected");
 
     tel.oncallschanged = e => {
-      console.log("oncallschanged", e.call);
+      console.log("oncallschanged", e.call, mediaRecorder);
       if (e.call.state === "disconnected") {
         console.log("disconnected");
         console.log(mediaRecorder);
