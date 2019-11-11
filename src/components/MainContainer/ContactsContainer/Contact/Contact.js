@@ -69,44 +69,6 @@ const Contact = ({
     // mediaRecorder.onstop = () =>
     //   console.log("mediaRecorder before disconnected");
 
-    mediaRecorder.start();
-    console.log("mRecorder start", mediaRecorder);
-
-    mediaRecorder.onstop = () => {
-      console.log("mediaRecorder onstop", mediaRecorder);
-      const duration = moment().diff(startRecord, "milliseconds");
-      const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
-      chunks = [];
-
-      const id = uuid();
-
-      console.log("create record", duration);
-
-      record = {
-        id,
-        blob,
-        name: contact.name,
-        tel: contact.tel,
-        date: new Date(),
-        duration: duration < 1000 ? 1000 : duration
-      };
-
-      db.records.add({
-        ...record,
-        title
-      });
-
-      addRecord({
-        ...record,
-        title
-      });
-      console.log("saved to storage");
-    };
-
-    mediaRecorder.ondataavailable = e => {
-      chunks.push(e.data);
-    };
-
     tel.oncallschanged = e => {
       console.log("oncallschanged", mediaRecorder);
       if (e.call.state === "disconnected") {
@@ -116,6 +78,44 @@ const Contact = ({
         // setIsShownPrompt(true);
 
         console.log("mediaRecorder stopped", mediaRecorder);
+      } else {
+        mediaRecorder.start();
+        console.log("mRecorder start", mediaRecorder);
+
+        mediaRecorder.onstop = () => {
+          console.log("mediaRecorder onstop", mediaRecorder);
+          const duration = moment().diff(startRecord, "milliseconds");
+          const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
+          chunks = [];
+
+          const id = uuid();
+
+          console.log("create record", duration);
+
+          record = {
+            id,
+            blob,
+            name: contact.name,
+            tel: contact.tel,
+            date: new Date(),
+            duration: duration < 1000 ? 1000 : duration
+          };
+
+          db.records.add({
+            ...record,
+            title
+          });
+
+          addRecord({
+            ...record,
+            title
+          });
+          console.log("saved to storage");
+        };
+
+        mediaRecorder.ondataavailable = e => {
+          chunks.push(e.data);
+        };
       }
     };
   };
