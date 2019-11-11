@@ -26,6 +26,8 @@ const App = () => {
     db.records.toArray(data => setRecords(data));
 
     if (navigator.mozContacts) {
+      console.log("get all mozContacts");
+
       const requestContacts = navigator.mozContacts.getAll({ sortBy: name }); // filterValue: (tel number)
       requestContacts.onsuccess = function() {
         if (this.result) {

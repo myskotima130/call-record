@@ -33,6 +33,8 @@ const Contact = ({
     //   onKeyRight: () => setTitle("")
     // });
 
+    console.log("start mozActivity");
+
     // eslint-disable-next-line no-undef
     const call = new MozActivity({
       name: "dial",

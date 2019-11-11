@@ -42,6 +42,10 @@
     },
     "audio-channel-ringer": {
       "description": "Incoming phone calls"
+    },
+    "contacts": {
+      "description": "Required for getting all contacts",
+      "access": "readcreate"
     }
   },
   "locales": {
