@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import React, { useState } from "react";
+import React from "react";
 import uuid from "uuid/v4";
 import moment from "moment";
 import CallPassive from "../../../../SVG/CallPassive/CallPassive";
@@ -44,12 +44,22 @@ const Contact = ({
     });
 
     call.onsuccess = function() {
-      console.log("mediaRecorder start");
+      console.log("mediaRecorder start", mediaRecorder);
       mediaRecorder.start();
       startRecord = moment();
     };
 
     const tel = navigator.mozTelephony;
+
+    // tel.dial(contact.tel).then(function(call) {
+    //   console.log("dial from mozTelephony");
+
+    //   call.onconnected = () => {
+    //     console.log("mediaRecorder start from mozTelephony");
+    //     mediaRecorder.start();
+    //     startRecord = moment();
+    //   };
+    // });
 
     tel.oncallschanged = e => {
       console.log("oncallschanged", e.call);
@@ -107,11 +117,12 @@ const Contact = ({
   // };
 
   return (
-    <div
+    <a
       className={styles.wrapper}
       nav-selectable="true"
       contactcall="true"
       onClick={onCall}
+      // href={`tel:${contact.tel}`}
     >
       <div>
         <p className={styles.name}>{contact.name}</p>
@@ -120,7 +131,7 @@ const Contact = ({
       <div onClick={onCall}>
         <CallPassive />
       </div>
-    </div>
+    </a>
   );
 };
 
