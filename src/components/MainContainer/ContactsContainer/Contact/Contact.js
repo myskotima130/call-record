@@ -62,21 +62,12 @@ const Contact = ({
     //   };
     // });
 
-    mediaRecorder.start(100);
-    startRecord = moment();
+    // mediaRecorder.start(100);
+    // startRecord = moment();
+    // console.log("mediaRecorder started once");
 
-    console.log("mediaRecorder started");
-
-    mediaRecorder.onerror = e => console.log(e);
-
-    mediaRecorder.onpause = () => {
-      console.log("mediaRecorder paused");
-      mediaRecorder.resume();
-      console.log("mediaRecorder resumed");
-    };
-
-    mediaRecorder.onstop = () =>
-      console.log("mediaRecorder before disconnected");
+    // mediaRecorder.onstop = () =>
+    //   console.log("mediaRecorder before disconnected");
 
     tel.oncallschanged = e => {
       console.log("oncallschanged", e.call);
@@ -123,6 +114,11 @@ const Contact = ({
         mediaRecorder.ondataavailable = e => {
           chunks.push(e.data);
         };
+      } else {
+        console.log("call state", e.call.state);
+        console.log("start mRecorder");
+        mediaRecorder.start();
+        startRecord = moment();
       }
     };
   };
