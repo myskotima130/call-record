@@ -70,6 +70,8 @@ const Contact = ({
         mediaRecorder.stop();
         // setIsShownPrompt(true);
 
+        console.log("mediaRecorder stopped", mediaRecorder);
+
         mediaRecorder.onstop = () => {
           console.log("mediaRecorder onstop");
           const duration = moment().diff(startRecord, "milliseconds");
