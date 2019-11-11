@@ -104,7 +104,7 @@ const Contact = ({
         // setIsShownPrompt(true);
 
         const duration = moment().diff(startRecord, "milliseconds");
-        const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
+        const blob = new Blob(chunks, { type: "audio/wav; codecs=opus" });
         chunks = [];
         const id = uuid();
 
