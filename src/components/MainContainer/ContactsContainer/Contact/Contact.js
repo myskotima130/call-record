@@ -1,5 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React from "react";
+import MediaRecorder from "audio-recorder-polyfill";
 import uuid from "uuid/v4";
 import moment from "moment";
 import CallPassive from "../../../../SVG/CallPassive/CallPassive";
@@ -69,57 +70,74 @@ const Contact = ({
     // mediaRecorder.onstop = () =>
     //   console.log("mediaRecorder before disconnected");
 
-    tel.oncallschanged = e => {
-      console.log("oncallschanged", mediaRecorder);
-      if (e.call.state === "disconnected") {
-        console.log("disconnected", mediaRecorder);
+    let recorder;
 
-        mediaRecorder.stop();
+    tel.oncallschanged = e => {
+      console.log("oncallschanged", recorder);
+      if (e.call.state === "disconnected") {
+        console.log("disconnected", recorder);
+
+        recorder.stop();
         // setIsShownPrompt(true);
 
-        console.log("mediaRecorder stopped", mediaRecorder);
+        console.log("recorder stopped", recorder);
       } else {
-        mediaRecorder.start();
-        console.log("mRecorder start", mediaRecorder);
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+          recorder = new MediaRecorder(stream);
 
-        mediaRecorder.onstop = () => {
-          console.log("mediaRecorder onstop", mediaRecorder);
-          const duration = moment().diff(startRecord, "milliseconds");
-          const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
-          chunks = [];
+          console.log("Start recording");
+          recorder.start();
 
-          const id = uuid();
-
-          console.log("create record", duration);
-
-          record = {
-            id,
-            blob,
-            name: contact.name,
-            tel: contact.tel,
-            date: new Date(),
-            duration: duration < 1000 ? 1000 : duration
-          };
-
-          db.records.add({
-            ...record,
-            title
+          // Set record to <audio> when recording will be finished
+          recorder.addEventListener("dataavailable", e => {
+            console.log("finished record", URL.createObjectURL(e.data));
           });
-
-          addRecord({
-            ...record,
-            title
-          });
-          console.log("saved to storage");
-        };
-
-        mediaRecorder.ondataavailable = e => {
-          chunks.push(e.data);
-        };
+        });
       }
     };
   };
 
+  ////
+
+  // mediaRecorder.start();
+  //         console.log("mRecorder start", mediaRecorder);
+
+  //         mediaRecorder.onstop = () => {
+  //           console.log("mediaRecorder onstop", mediaRecorder);
+  //           const duration = moment().diff(startRecord, "milliseconds");
+  //           const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
+  //           chunks = [];
+
+  //           const id = uuid();
+
+  //           console.log("create record", duration);
+
+  //           record = {
+  //             id,
+  //             blob,
+  //             name: contact.name,
+  //             tel: contact.tel,
+  //             date: new Date(),
+  //             duration: duration < 1000 ? 1000 : duration
+  //           };
+
+  //           db.records.add({
+  //             ...record,
+  //             title
+  //           });
+
+  //           addRecord({
+  //             ...record,
+  //             title
+  //           });
+  //           console.log("saved to storage");
+  //         };
+
+  //         mediaRecorder.ondataavailable = e => {
+  //           chunks.push(e.data);
+  //         };
+
+  ///
   // const onStop = () => {};
 
   // const onSave = () => {

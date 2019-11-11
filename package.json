@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "audio-recorder-polyfill": "^0.1.6",
     "classnames": "^2.2.6",
     "dexie": "^2.0.4",
     "moment": "^2.24.0",
