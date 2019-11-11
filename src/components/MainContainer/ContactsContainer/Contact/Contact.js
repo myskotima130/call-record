@@ -83,44 +83,47 @@ const Contact = ({
       console.log("oncallschanged", recorder);
       if (e.call.state === "disconnected") {
         console.log("disconnected", recorder);
+        console.log(recorder.clone);
 
         recorder.stop();
         // setIsShownPrompt(true);
 
-        recorder.addEventListener("dataavailable", e => {
-          const duration = moment().diff(startRecord, "milliseconds");
+        const duration = moment().diff(startRecord, "milliseconds");
 
-          const id = uuid();
+        const id = uuid();
 
-          console.log("create record", duration);
+        console.log("create record", duration);
 
-          record = {
-            id,
-            blob: e.data,
-            name: contact.name,
-            tel: contact.tel,
-            date: new Date(),
-            duration: duration < 1000 ? 1000 : duration
-          };
+        record = {
+          id,
+          blob: recorder.clone,
+          name: contact.name,
+          tel: contact.tel,
+          date: new Date(),
+          duration: duration < 1000 ? 1000 : duration
+        };
 
-          console.log(record);
+        console.log(record);
 
-          db.records.add({
-            ...record,
-            title
-          });
-
-          addRecord({
-            ...record,
-            title
-          });
-          console.log("saved to storage");
-
-          console.log("recorder stopped", recorder);
+        db.records.add({
+          ...record,
+          title
         });
+
+        addRecord({
+          ...record,
+          title
+        });
+        console.log("saved to storage");
+
+        console.log("recorder stopped", recorder);
       } else {
         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
           recorder = new MediaRecorder(stream);
+
+          recorder.addEventListener("dataavailable", e => {
+            console.log("finished record", e.data);
+          });
 
           console.log("Start recording");
           recorder.start();
