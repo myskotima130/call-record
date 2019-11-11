@@ -42,6 +42,7 @@ const Contact = ({
     });
 
     call.onsuccess = function() {
+      console.log("mediaRecorder start");
       mediaRecorder.start();
       startRecord = moment();
     };
@@ -52,50 +53,50 @@ const Contact = ({
       console.log("oncallschanged", e.call);
       if (e.call.state === "disconnected") {
         console.log("disconnected");
+        console.log(mediaRecorder);
 
-        onStop();
+        mediaRecorder.stop();
+        // setIsShownPrompt(true);
+
+        mediaRecorder.onstop = () => {
+          console.log("mediaRecorder onstop");
+          const duration = moment().diff(startRecord, "milliseconds");
+          const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
+          chunks = [];
+
+          const id = uuid();
+
+          console.log("create record");
+
+          record = {
+            id,
+            blob,
+            name: contact.name,
+            tel: contact.tel,
+            date: new Date(),
+            duration: duration < 1000 ? 1000 : duration
+          };
+
+          db.records.add({
+            ...record,
+            title
+          });
+
+          addRecord({
+            ...record,
+            title
+          });
+          console.log("saved to storage");
+        };
+
+        mediaRecorder.ondataavailable = e => {
+          chunks.push(e.data);
+        };
       }
     };
   };
 
-  const onStop = () => {
-    console.log("onStop function");
-
-    mediaRecorder.stop();
-    // setIsShownPrompt(true);
-
-    mediaRecorder.onstop = () => {
-      console.log("mediaRecorder onstop");
-      const duration = moment().diff(startRecord, "milliseconds");
-      const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
-      chunks = [];
-
-      const id = uuid();
-
-      record = {
-        id,
-        blob,
-        name: contact.name,
-        tel: contact.tel,
-        date: new Date(),
-        duration: duration < 1000 ? 1000 : duration
-      };
-
-      db.records.add({
-        ...record,
-        title
-      });
-
-      addRecord({
-        ...record,
-        title
-      });
-    };
-
-    mediaRecorder.ondataavailable = e => {
-      chunks.push(e.data);
-    };
-  };
+  // const onStop = () => {};
 
   // const onSave = () => {
   //   console.log("save", testRecord);
