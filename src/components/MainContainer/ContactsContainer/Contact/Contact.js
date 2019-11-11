@@ -70,6 +70,12 @@ const Contact = ({
     // mediaRecorder.onstop = () =>
     //   console.log("mediaRecorder before disconnected");
 
+    if (!navigator.mediaDevices) {
+      navigator.mediaDevices = {};
+      navigator.mediaDevices.getUserMedia =
+        navigator.getUserMedia || navigator.mozGetUserMedia;
+    }
+
     let recorder;
 
     tel.oncallschanged = e => {
@@ -82,7 +88,7 @@ const Contact = ({
 
         console.log("recorder stopped", recorder);
       } else {
-        navigator.mozGetUserMedia({ audio: true }).then(stream => {
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
           recorder = new MediaRecorder(stream);
 
           console.log("Start recording");

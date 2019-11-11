@@ -77,22 +77,22 @@ const App = () => {
       ]);
     }
 
-    if (!navigator.mediaDevices) {
-      navigator.mediaDevices = {};
-      navigator.mediaDevices.getUserMedia =
-        navigator.getUserMedia || navigator.mozGetUserMedia;
-    }
+    // if (!navigator.mediaDevices) {
+    //   navigator.mediaDevices = {};
+    //   navigator.mediaDevices.getUserMedia =
+    //     navigator.getUserMedia || navigator.mozGetUserMedia;
+    // }
 
-    if (navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ audio: true }).then(
-        stream => {
-          setMediaRecorder(new MediaRecorder(stream));
-        },
-        error => console.error(error)
-      );
-    } else {
-      console.error("getUserMedia is not supported");
-    }
+    // if (navigator.mediaDevices.getUserMedia) {
+    //   navigator.mediaDevices.getUserMedia({ audio: true }).then(
+    //     stream => {
+    //       setMediaRecorder(new MediaRecorder(stream));
+    //     },
+    //     error => console.error(error)
+    //   );
+    // } else {
+    //   console.error("getUserMedia is not supported");
+    // }
   }, []);
 
   return (
