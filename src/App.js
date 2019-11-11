@@ -47,8 +47,8 @@ const App = () => {
     } else {
       setContactsFromPhone([
         {
-          name: "Amie Meyer",
-          tel: "+74732334425"
+          name: "tel 0611",
+          tel: "0611"
         },
         {
           name: "Azet Gray",
