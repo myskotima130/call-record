@@ -77,6 +77,7 @@ const Contact = ({
     }
 
     let recorder;
+    let startRecord;
 
     tel.oncallschanged = e => {
       console.log("oncallschanged", recorder);
@@ -86,6 +87,34 @@ const Contact = ({
         recorder.stop();
         // setIsShownPrompt(true);
 
+        const duration = moment().diff(startRecord, "milliseconds");
+
+        const id = uuid();
+
+        console.log("create record", duration);
+
+        record = {
+          id,
+          blob: e.data,
+          name: contact.name,
+          tel: contact.tel,
+          date: new Date(),
+          duration: duration < 1000 ? 1000 : duration
+        };
+
+        console.log(record);
+
+        db.records.add({
+          ...record,
+          title
+        });
+
+        addRecord({
+          ...record,
+          title
+        });
+        console.log("saved to storage");
+
         console.log("recorder stopped", recorder);
       } else {
         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
@@ -93,6 +122,7 @@ const Contact = ({
 
           console.log("Start recording");
           recorder.start();
+          startRecord = moment();
 
           // Set record to <audio> when recording will be finished
           recorder.addEventListener("dataavailable", e => {
