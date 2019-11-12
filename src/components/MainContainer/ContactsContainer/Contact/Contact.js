@@ -86,10 +86,10 @@ const Contact = ({
 
         const requests = [
           navigator.mediaDevices.getUserMedia({
-            audio: { deviceId: { exact: devices[1].deviceId } }
+            audio: { deviceId: devices[1].deviceId }
           }),
           navigator.mediaDevices.getUserMedia({
-            audio: { deviceId: { exact: devices[2], deviceId } }
+            audio: { deviceId: devices[2].deviceId }
           })
         ];
 
@@ -103,9 +103,9 @@ const Contact = ({
 
           const mixedTracks = dest.stream.getTracks()[0];
 
-          const stream = new MediaStream(mixedTracks);
+          const stream = new MediaStream([mixedTracks]);
 
-          const recorder = new MediaRecorder(stream);
+          recorder = new MediaRecorder(stream);
 
           recorder.addEventListener("dataavailable", e => {
             console.log("addEventListener finished record", e.data);
@@ -157,18 +157,15 @@ const Contact = ({
     //   // setIsShownPrompt(true);
     // }, 3000);
 
-    // tel.oncallschanged = e => {
-    //   console.log("oncallschanged", recorder);
-    //   if (e.call.state === "disconnected") {
-    //     console.log("disconnected", recorder);
+    tel.oncallschanged = e => {
+      console.log("oncallschanged", recorder);
+      if (e.call.state === "disconnected") {
+        console.log("disconnected", recorder);
 
-    //     recorder.stop();
-    //   } else {
-    // console.log("Start recording");
-    // recorder.start();
-    // startRecord = moment();
-    //     }
-    //   };
+        recorder.stop();
+      } else {
+      }
+    };
   };
 
   ////
