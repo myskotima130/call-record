@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React from "react";
-import MediaRecorder from "audio-recorder-polyfill";
+// import MediaRecorder from "audio-recorder-polyfill";
 import uuid from "uuid/v4";
 import moment from "moment";
 import CallPassive from "../../../../SVG/CallPassive/CallPassive";
