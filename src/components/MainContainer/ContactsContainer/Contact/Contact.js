@@ -83,10 +83,6 @@ const Contact = ({
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
       recorder = new MediaRecorder(stream);
 
-      console.log("Start recording");
-      recorder.start();
-      startRecord = moment();
-
       recorder.addEventListener("dataavailable", e => {
         console.log("addEventListener finished record", e.data);
         chunks.push(e.data);
@@ -95,8 +91,6 @@ const Contact = ({
         const blob = new Blob(chunks, { type: "audio/wav; codecs=opus" });
         chunks = [];
         const id = uuid();
-
-        console.log("create record", duration);
 
         record = {
           id,
@@ -127,7 +121,18 @@ const Contact = ({
         console.log("finished record", e.data);
         chunks.push(e.data);
       };
+
+      console.log("Start recording");
+      recorder.start();
+      startRecord = moment();
     });
+
+    // setTimeout(() => {
+    //   console.log("disconnected", recorder);
+
+    //   recorder.stop();
+    //   // setIsShownPrompt(true);
+    // }, 3000);
 
     tel.oncallschanged = e => {
       console.log("oncallschanged", recorder);
@@ -135,8 +140,10 @@ const Contact = ({
         console.log("disconnected", recorder);
 
         recorder.stop();
-        // setIsShownPrompt(true);
       } else {
+        // console.log("Start recording");
+        // recorder.start();
+        // startRecord = moment();
       }
     };
   };
