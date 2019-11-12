@@ -42,6 +42,12 @@
     },
     "audio-channel-ringer": {
       "description": "Incoming phone calls"
+    },
+    "audio-channel-normal": {
+      "description": "UI sounds, Web content, music, radio."
+    },
+    "audio-channel-content": {
+      "description": "Music, video."
     }
   },
   "locales": {
