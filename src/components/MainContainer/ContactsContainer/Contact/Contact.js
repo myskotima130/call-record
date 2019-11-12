@@ -86,10 +86,10 @@ const Contact = ({
 
         const requests = [
           navigator.mediaDevices.getUserMedia({
-            audio: { deviceId: { exact: "mic_1_id" } }
+            audio: { deviceId: { exact: devices[1].deviceId } }
           }),
           navigator.mediaDevices.getUserMedia({
-            audio: { deviceId: { exact: "mic_2_id" } }
+            audio: { deviceId: { exact: devices[2], deviceId } }
           })
         ];
 
