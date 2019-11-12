@@ -1,6 +1,6 @@
-/* eslint-disable no-use-before-define */
+/* eslint-disable no-undef */
+/* eslint-disable no-use-before-define  */
 import React from "react";
-// import MediaRecorder from "audio-recorder-polyfill";
 import uuid from "uuid/v4";
 import moment from "moment";
 import CallPassive from "../../../../SVG/CallPassive/CallPassive";
@@ -18,9 +18,7 @@ const Contact = ({
   isShownPrompt,
   title
 }) => {
-  let chunks = [];
   let record;
-  let startRecord;
 
   const onCall = () => {
     // setTimeout(() => {
@@ -70,6 +68,8 @@ const Contact = ({
     // mediaRecorder.onstop = () =>
     //   console.log("mediaRecorder before disconnected");
 
+    // ------------------------------------------------------------------------------
+
     if (!navigator.mediaDevices) {
       navigator.mediaDevices = {};
       navigator.mediaDevices.getUserMedia =
@@ -80,52 +80,75 @@ const Contact = ({
     let startRecord;
     let chunks = [];
 
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-      recorder = new MediaRecorder(stream);
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(() => {
+      navigator.mediaDevices.enumerateDevices().then(devices => {
+        console.log("devices", devices);
 
-      recorder.addEventListener("dataavailable", e => {
-        console.log("addEventListener finished record", e.data);
-        chunks.push(e.data);
+        const requests = [
+          navigator.mediaDevices.getUserMedia({
+            audio: { deviceId: { exact: "mic_1_id" } }
+          }),
+          navigator.mediaDevices.getUserMedia({
+            audio: { deviceId: { exact: "mic_2_id" } }
+          })
+        ];
 
-        const duration = moment().diff(startRecord, "milliseconds");
-        const blob = new Blob(chunks, { type: "audio/wav; codecs=opus" });
-        chunks = [];
-        const id = uuid();
+        Promise.all(requests).then(streams => {
+          const ctx = new AudioContext();
+          const dest = ctx.createMediaStreamDestination();
 
-        record = {
-          id,
-          blob,
-          name: contact.name,
-          tel: contact.tel,
-          date: new Date(),
-          duration: duration < 1000 ? 1000 : duration
-        };
+          streams.map(stream => {
+            ctx.createMediaStreamSource(stream).connect(dest);
+          });
 
-        console.log(record);
+          const mixedTracks = dest.stream.getTracks()[0];
 
-        db.records.add({
-          ...record,
-          title
+          const stream = new MediaStream(mixedTracks);
+
+          const recorder = new MediaRecorder(stream);
+
+          recorder.addEventListener("dataavailable", e => {
+            console.log("addEventListener finished record", e.data);
+            chunks.push(e.data);
+
+            const duration = moment().diff(startRecord, "milliseconds");
+            const blob = new Blob(chunks, { type: "audio/wav; codecs=opus" });
+            chunks = [];
+            const id = uuid();
+
+            record = {
+              id,
+              blob,
+              name: contact.name,
+              tel: contact.tel,
+              date: new Date(),
+              duration: duration < 1000 ? 1000 : duration
+            };
+
+            console.log(record);
+
+            db.records.add({
+              ...record,
+              title
+            });
+
+            addRecord({
+              ...record,
+              title
+            });
+            console.log("saved to storage");
+
+            console.log("recorder stopped", recorder);
+          });
+
+          console.log("Start recording");
+          recorder.start();
+          startRecord = moment();
         });
-
-        addRecord({
-          ...record,
-          title
-        });
-        console.log("saved to storage");
-
-        console.log("recorder stopped", recorder);
       });
-
-      recorder.ondataavailable = e => {
-        console.log("finished record", e.data);
-        chunks.push(e.data);
-      };
-
-      console.log("Start recording");
-      recorder.start();
-      startRecord = moment();
     });
+
+    // ------------------------------------------------------------------------------
 
     // setTimeout(() => {
     //   console.log("disconnected", recorder);
@@ -134,18 +157,18 @@ const Contact = ({
     //   // setIsShownPrompt(true);
     // }, 3000);
 
-    tel.oncallschanged = e => {
-      console.log("oncallschanged", recorder);
-      if (e.call.state === "disconnected") {
-        console.log("disconnected", recorder);
+    // tel.oncallschanged = e => {
+    //   console.log("oncallschanged", recorder);
+    //   if (e.call.state === "disconnected") {
+    //     console.log("disconnected", recorder);
 
-        recorder.stop();
-      } else {
-        // console.log("Start recording");
-        // recorder.start();
-        // startRecord = moment();
-      }
-    };
+    //     recorder.stop();
+    //   } else {
+    // console.log("Start recording");
+    // recorder.start();
+    // startRecord = moment();
+    //     }
+    //   };
   };
 
   ////
