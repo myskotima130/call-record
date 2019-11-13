@@ -184,8 +184,22 @@ export const MainContainer = pure(
     useEffect(() => {
       setSoftkey({
         ...softkey,
-        left: recordTel ? (isShowOptions ? "Cancel" : "Back") : "",
-        right: recordTel ? (index === 0 || isShowOptions ? "" : "Options") : "",
+        left:
+          status === "contact"
+            ? ""
+            : recordTel
+            ? isShowOptions
+              ? "Cancel"
+              : "Back"
+            : "",
+        right:
+          status === "contact"
+            ? ""
+            : recordTel
+            ? index === 0 || isShowOptions
+              ? ""
+              : "Options"
+            : "",
         center:
           status === "contact" && index !== 0
             ? "Call"
