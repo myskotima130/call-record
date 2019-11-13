@@ -208,8 +208,8 @@ export const MainContainer = pure(
               ? "Save"
               : "Play"
             : "Select",
-        onKeyRight: showOptions,
-        onKeyLeft: getBack
+        onKeyRight: status === "contact" ? null : showOptions,
+        onKeyLeft: status === "contact" ? null : getBack
       });
     }, [recordTel, isShowOptions, index]);
 
